@@ -1,0 +1,93 @@
+{% load static %}
+<div class="row">
+    <div class="col-6">
+        <h3 class="text-aling-center">Docentes </h3>
+    </div>
+    <div class="col-6 d-flex justify-content-end align-items-start">
+        <i class="fa fa-close fa-2x "  onclick="ocultarListado()"></i>
+    </div>
+    <br><br>
+</div>
+
+<!-- Formulario para importar docentes -->
+<div class="row mb-3">
+    <div class="col-md-12">
+        <form method="post" enctype="multipart/form-data"  id="importarForm">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-6">
+                    <label for="archivo_excel" class="form-label">Cargar archivo Excel:</label>
+                    <input type="file" name="archivo_excel" id="archivo_excel" accept=".xlsx" class="form-control" >
+                </div>
+
+                <div class="col-6">
+                   <br>
+                    <button type="button" class="btn btn-primary mt-2" onclick="enviarArchivo()">Importar Docentes</button> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{% static 'archivos/formato_importacion_docentes.xlsx' %}" download id="DescargarFormato" class="btn btn-success">
+                        Descargar Formato <i class="fas fa-download"></i>
+                    </a>  
+                </div>  
+            </div>
+
+        </form>
+    </div>
+</div>
+<hr>
+
+<!-- Listado de docentes -->
+<table class="table" id="tbl-docentes">
+    <thead>
+        <tr>
+            <th>N°</th> <!-- Número de Enumeración -->
+            <th>Usuario</th>
+            <th>Cédula</th> <!-- Número de Cédula -->
+            <th>Apellidos y Nombres</th> <!-- Apellidos y Nombres -->
+            <th>Especialidad</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Email</th>
+            <th>Acciones</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for docente in docentes %}
+            <tr>
+                <td>{{ forloop.counter }}</td> <!-- Número de Enumeración -->
+                <td>{{ docente.usuario.username }}</td>
+                <td>{{ docente.cedula }}</td> <!-- Número de Cédula -->
+                <td>{{ docente.apellido_Paterno }} {{ docente.apellido_Materno }} {{ docente.primer_nombre }} {{ docente.segundo_nombre }} </td> <!-- Apellidos y Nombres -->
+                <td>{{ docente.especialidad }}</td> 
+                <td>{{ docente.telefono }}</td> 
+                <td>{{ docente.direccion }}</td>
+                <td>{{ docente.email }}</td> 
+                
+                
+                <td class="text-center">
+                    <div class="d-flex justify-content-around">
+                        <a href="#" class="btn btn-outline-warning btn-circle mx-1" onclick="editarDocente({{ docente.id }})" title="Editar Docente">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a href="#" onclick="eliminarDocente({{ docente.id }})" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="12">No hay docentes.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<style>
+    .btn-circle{
+        border-radius:100px !important;
+    }
+</style>
+
+

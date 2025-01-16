@@ -1,0 +1,151 @@
+<div class="row g-3">
+    {% if periodos %}
+        {% for periodoTemporal in periodos %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card border-secondary h-100" style="border-width: 2px; border-color: #262D59;">
+                    <!-- Cabecera del periodo -->
+                    <div class="card-header py-2 position-relative "
+                        style="background-color: {% if periodoTemporal.estado == 'ACTIVO' %}#BC21D9{% else %}#262D59{% endif %}; 
+                                color: {% if periodoTemporal.estado == 'ACTIVO' %}white{% else %}white{% endif %}; font-size: 0.9rem;">
+                        <h6 class="m-0 text-center nombrePeriodo" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ periodoTemporal.nombre }}: {{ periodoTemporal.estado }}</h6>
+                    </div>
+                    <div class="row  ">
+                        <div class="col-6">
+                            <a href="#" onclick="selecionarUnPeriodo({{ periodoTemporal.id }});" 
+                            class="btn btn-outline-primary btn-sm w-100" title="Editar Periodo">
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                        </div>
+                        <div class="col-6 ">
+                            <a href="#" onclick="eliminarUnPeriodo({{ periodoTemporal.id }});" 
+                        class="btn btn-outline-danger btn-sm w-100" title="Eliminar Periodo">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        </div>
+
+                    </div>
+                    
+                    <!-- Contenido del periodo -->
+                    <div class="card-body p-2">
+                        <p class="mb-1"><strong>Inicio:</strong> {{ periodoTemporal.fecha_inicio }}</p>
+                        <p class="mb-1"><strong>Fin:</strong> {{ periodoTemporal.fecha_fin }}</p>
+                        <p class="mb-2 text-truncate"><strong>Descripción:</strong> {{ periodoTemporal.descripcion }}</p>
+                        <p class="m-0"><strong>Decimales:</strong> 
+                            <span class="badge rounded-pill" style="background-color: #F1C40F; color: #003366;">
+                                {{ periodoTemporal.cantidad }}
+                            </span>
+                        </p>
+                    </div>
+
+                    <!-- Botones de acciones -->
+                    <div class="card-footer p-0">
+                        <div class="d-flex justify-content-between gap-1">
+                            <a href="#" onclick="listarTrimestres({{ periodoTemporal.id }}); cerrarAccordion();" 
+                            class="btn btn-primary btn-sm flex-fill text-nowrap" style="font-size: 0.8rem;">
+                                Trimestres
+                            </a>
+                            <a href="#" onclick="listarCursos({{ periodoTemporal.id }}); cerrarAccordion();" 
+                            class="btn btn-warning btn-sm flex-fill text-nowrap" style="font-size: 0.8rem;">
+                                Cursos
+                            </a>
+                            <a href="#" onclick="listarExamenesFinales({{ periodoTemporal.id }}); cerrarAccordion();" 
+                            class="btn btn-outline-primary btn-sm flex-fill text-nowrap" style="font-size: 0.8rem;">
+                                Exámenes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                No hay períodos académicos disponibles.
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- modal para cambiar el periodo -->
+<!-- Modal -->
+<div class="modal fade" id="modalEditarPeriodo" tabindex="-1" aria-labelledby="modalEditarPeriodoLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarPeriodoLabel">Editar Periodo Academico</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarPeriodo">
+                    <input type="hidden" id="periodoId">
+                    <input type="hidden" id="version" name="version"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="nombrePeriodoActualizado"><strong>Nombre de Periodo Academico:</strong></label>
+                            <br>
+                            <input class="form-control" type="text" id="nombrePeriodoActualizado"
+                                name="nombrePeriodoActualizado" required> <br>
+                        </div>
+                    
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="nombrePeriodoActualizado"><strong>Descripción::</strong></label>
+                            <br>
+                            <textarea class="form-control" id="descripcion" name="descripcion" rows="2" required></textarea>
+                            
+                        </div>
+                        <div class="col-6">
+                            <label >Decimas:</label>
+                            <br>
+                            <input type="number" class="form-control" id="decimasPeriodoActualizado" name="decimasPeriodoActualizado">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="fechaInicioActualizado">Fecha de Inicio:</label>
+                            <input class="form-control" type="date" id="fechaInicioActualizado"
+                                name="fechaInicioActualizado" required>
+                        </div>
+                        <div class="col-4">
+                            <label for="fechaFinActualizado">Fecha Final:</label>
+                            <input class="form-control" type="date" id="fechaFinActualizado" name="fechaFinActualizado"
+                                required>
+                        </div>
+                        <div class="col-4">
+                            <label for="fechaFinActualizado">Estado:</label>
+                            <select class="form-control" name="estadoActualizado" id="estadoActualizado">
+                                <option value="ACTIVO" selected>Activo</option>
+                                <option value="INACTIVO">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br><br><br>
+                    <div class="row text-center">
+
+                        <div class="col-6">
+                            <button type="button" class="btn btn-success" onclick="editarUnPeriodo()">Guardar
+                                Cambios</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<style>
+    .btn-circle {
+        border-radius: 100px !important;
+    }
+</style>

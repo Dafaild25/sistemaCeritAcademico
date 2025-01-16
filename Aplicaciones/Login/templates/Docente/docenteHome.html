@@ -1,0 +1,89 @@
+{% extends 'masterDocente.html' %}
+{% load static %}
+{% block body %}
+
+
+<script src="{% static 'plantilla/assets/js/plugin/chart.js/chart.min.js' %}"></script>
+<script src="{% static 'js/adminDocente/adminDocente.js' %}" defer></script>
+<script src="{% static 'js/adminDocente/asistencias.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'css/Docente/asistencia.css' %}">
+
+
+
+
+<div class="container mt-5">
+    <div class="row">
+
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Periodo Academico</h4>
+                </div>
+                <div class="col-md-6">
+                    {% comment %} aqui debo cambiar por otro id {% endcomment %}
+                    <select id="cboPeriodoClase" class='form-control'></select>
+                </div>
+            </div>
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <!-- copia desde aqui -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseOne">
+                            Cursos Asignados
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+
+                            <div class="container mt-4">
+                                <div class="row contenido" id="container_cursosAsignaturas">
+                                    <!-- aqui debe ir el for -->
+                                    {% comment %} el template se llama adminDOCENTE {% endcomment %}
+
+                                </div>
+                            </div>
+                            <!-- termina el contenido -->
+                        </div>
+                    </div>
+                </div>
+                <!-- aqui se acaba el primer acordeon -->
+            </div>
+
+            
+            <div class="container-fluid p-0" >
+                <br><br>
+                <div class="row g-0" id="contenedor-trabajo-clase">
+                    
+                </div>
+                
+                {% comment %} estos de aqui no funcionan  {% endcomment %}
+
+                <div class="row g-0" id="contenedor-calificaciones">
+                    
+                    
+                </div>
+                <div class="row g-0">
+                    <div class="col-md-3 p-0" id="contenedor-aportes">
+
+
+                    </div>
+                    <div class="col-md-9 p-0" id="contenedor-matriculados">
+                        
+                    </div>
+                </div>
+                
+
+            </div>
+           
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

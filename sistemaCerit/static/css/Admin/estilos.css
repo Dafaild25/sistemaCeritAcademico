@@ -1,0 +1,118 @@
+/* @media (max-width: 768px) {
+    #tarjetas {
+        
+        flex-direction: column;
+    }
+
+    .card {
+        margin-bottom: 10px;
+    }
+} */
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+/* #tarjetas {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #6c757d;
+    margin: 0;
+} */
+.content-header {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.content-header button {
+    background: none;
+    border: none;
+    color: #6c757d;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Estilo para minimizar */
+.minimized .content-wrapper {
+    height: 40px;
+    width: 100%; /* Ancho completo cuando se minimiza */
+    border-radius: 0; /* Sin bordes redondeados */
+}
+/* .minimized #tarjetas {
+    display: none;
+    height: 40px;
+    width: 100%; 
+    border-radius: 0; 
+    overflow: hidden; 
+} */
+/* Estilo para maximizar */
+.maximized {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    border-radius: 0;
+}
+
+
+.contenedor-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.contenido-tooltip {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 100%; /* Posiciona el tooltip arriba del botón */
+    left: 70%;
+    transform: translateX(-50%);
+    margin-bottom: 10px; /* Espacio entre el botón y el tooltip */
+    z-index: 2;
+}
+
+.contenedor-tooltip:hover .contenido-tooltip {
+    visibility: visible;
+    opacity: 0.9;
+}
+
+.info-icon {
+    font-size: 2em; /* Ajusta el tamaño del icono */
+    cursor: pointer;
+}
+
+.iconRegistro {
+    font-size: 2rem; /* Adjust the size as needed */
+    display: block;
+    margin: 0 auto; /* Center horizontally */
+    text-align: center;
+}
+
+.scroll-container {
+    max-height: 500px;
+    overflow-y: auto;
+}
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+
+
+
+.nombrePeriodo:hover {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    background-color: rgba(0, 0, 0, 0.1); /* Fondo ligeramente oscuro al hacer hover */
+    padding: 5px;
+    border-radius: 3px;
+}

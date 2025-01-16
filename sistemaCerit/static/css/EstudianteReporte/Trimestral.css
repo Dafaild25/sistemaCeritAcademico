@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 100px;
+    height: 50px;
+    background: linear-gradient(45deg, #FFD700, #FF0000 50%, #0000FF);
+    margin-right: 20px;
+}
+
+.school-info {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.school-info h1 {
+    color: #333;
+    margin: 0;
+    font-size: 18px;
+}
+
+.school-info p {
+    color: #666;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #999;
+    padding: 8px;
+    text-align: center;
+    font-size: 12px;
+}
+
+th {
+    background-color: #f0f0f0;
+}
+
+.areas {
+    text-align: left;
+    font-weight: bold;
+}
+
+.naar {
+    background-color: #f8f8f8;
+}
+
+.exam-col {
+    background-color: #ffebee;
+}
+
+.legend {
+    margin-top: 20px;
+    border: 1px solid #999;
+    padding: 10px;
+}
+
+.legend-item {
+    margin: 5px 0;
+    font-size: 12px;
+}
+
+.signatures {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}

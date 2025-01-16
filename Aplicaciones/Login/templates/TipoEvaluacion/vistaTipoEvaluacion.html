@@ -1,0 +1,225 @@
+{% if trimestres %}
+<div class="row">
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+        <!-- copia desde aqui -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapseTwo">
+                    <h6>Tipos de Evaluacion</h6>
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
+                aria-labelledby="panelsStayOpen-headingTwo">
+                <div class="accordion-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col text-end">
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearTipoEvaluacionModal">
+                                    Agregar Nuevos tipos de Evaluacion
+                                </button>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+
+                            {% for trimestre in trimestres %}
+                            <div class="col-md-4 d-flex">
+                                <div class="car shadow-sm flex-grow-1">
+                                    <div class="card-header text-center bg-primary text-white">
+                                        <h5 class="text-center">{{trimestre.nombre}}</h5>
+                                        
+                                    </div>
+                                    <div class="card-body">
+                                        <input type="hidden" id="periodoTipoActualizar" name="periodoTipoActualizar" value="{{periodo_academico.id}}">
+                                        {% with tipoTemporal=tipos_evaluacion %}
+                                        {% for tipo in tipoTemporal %}
+                                        {% if tipo.trimestre_id.id == trimestre.id %}
+                                        <ul class="list-group">
+                                            <li class="list-group"   >
+                                                <div class="row" >
+                                                    <div class="col-1">
+                                                        <div style="width: 5px; height: 100%; background-color: {{ tipo.color }};"></div>
+                                                    </div>
+                                                    <div class="col-7">
+                                                        <div class="row">
+                                                            <p class="text-medium">{{ tipo.nombre }}</p> <br>
+                                                            <p class="text-small" >Ponderación: <span class="badge bg-primary rounded-pill">
+                                                                    {{tipo.ponderacion }}%</span>
+                                                            </p>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="row d-flex justify-content-center align-items-center">
+                                                            
+                                                                <div class="col-6 d-flex justify-content-center align-items-center">
+                                                                    <button type="button" onclick="selecionarUnTipoEvaluacion({{tipo.id}})" class="btn btn-outline-primary btn-circle-tipos  "
+                                                                    title="Editar Trimestre">
+                                                                    <i class="fas fa-pencil"></i></button >
+                                                                </div>
+                                                                <div class="col-6 d-flex justify-content-center align-items-center">
+                                                                    <button  type="button"  onclick="eliminarUnTipoEvaluacion({{tipo.id}})" class="btn btn-outline-danger btn-circle-tipos "
+                                                                    title="Editar Trimestre">
+                                                                    <i class="fas fa-trash"></i>
+                                                                    </button >
+                                                                </div>
+                                                                
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <br>
+                                        </ul>
+                                        {% endif %}
+                                    {% empty %}
+                                    <p>No hay tipos de evaluación para este trimestre.</p>
+                                    {% endfor %}
+                                    {% endwith %}
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<p>No hay trimestres disponibles.</p>
+{% endif %}
+
+
+
+<!-- aqui deberia ir el modal  -->
+
+<!-- modal para crear nuevos tipos de evaluaciones ya que es por cada trimestre de crear  -->
+<div class="modal fade" id="crearTipoEvaluacionModal" tabindex="-1" aria-labelledby="crearTipoEvaluacionModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="crearTipoEvaluacionModalLabel">Crear
+                    Tipo de
+                    Evaluación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                <form id="crearTipoEvaluacionForm">
+                    <input type="hidden" name="periodoTipo" id="periodoTipo" value="{{periodo_academico.id}}">
+                    <div class="mb-3">
+                        <label for="nombreTipo" class="form-label">Nombre del Tipo de Evaluación</label>
+                        <input type="text" class="form-control" id="nombreTipo" name="nombreTipo" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="ponderadoTipo" class="form-label">Ponderación (%)</label>
+                                <input type="text" class="form-control" id="ponderadoTipo"  name="ponderadoTipo"  step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="colorTipo" class="form-label">Color</label><br>
+                                <input type="color"  id="colorTipo"  name="colorTipo"  required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                   
+
+                    
+
+                    <div class="mb-3">
+                        <label for="trimestres" class="form-label">Seleccionar Trimestres</label>
+                        {% for trimestre in trimestres %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="trimestre{{ trimestre.id }}" name="trimestres" value="{{ trimestre.id }}">
+                                <label class="form-check-label" for="trimestre{{ trimestre.id }}">
+                                    {{ trimestre.nombre }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="guardarTipoEvaluacion()">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- modal para editar el tipo de evaluacion -->
+
+<div class="modal fade" id="modalEditarTipoEvaluacion" tabindex="-1" aria-labelledby="EditarTipoEvaluacionLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditarTipoEvaluacionLabel">Editar
+                    Tipo de
+                    Evaluación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                <form id="editarTipoEvaluacionForm">
+                    <input type="hidden" name="tipoEvaluacionId" id="tipoEvaluacionId" >
+                    <input type="hidden" name="periodoTipoEva"id="periodoTipoEva" value="{{periodo_academico.id}}" >
+                    <div class="mb-3">
+                        <label for="nombreTipo" class="form-label">Nombre del Tipo de Evaluación</label>
+                        <input type="text" class="form-control" id="nombreEvaluacion" name="nombreEvaluacion" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ponderadoTipo" class="form-label">Ponderación (%)</label>
+                        <input type="text" class="form-control" id="ponderadoEvaluacion"  name="ponderadoEvaluacion"  step="0.01" required>
+                    </div>
+                    <div class="mb-3"></div>
+                        <label  class="form-label">Color : </label>
+                        <input type="color"  id="colorEvaluacion"  name="colorEvaluacion"   required>
+                    </div>
+
+                    <button type="button" onclick="editarUnTipoEvaluacion()" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- estilos de los botones -->
+<style>
+    .btn-circle {
+        border-radius: 100px !important;
+    }
+
+    .btn-circle-tipos {
+        border-radius: 50px; /* Para hacer el botón completamente circular */
+        text-align: center;
+        align-items: center;
+        display: inline-flex;
+        justify-content: center;
+        
+        /* Ajusta el tamaño del botón */
+        width: 50px; /* Ajusta el ancho */
+        height: 50px; /* Ajusta la altura */
+        
+        /* Ajusta el tamaño del ícono o texto dentro del botón */
+        font-size: 16px;
+        padding: 10px;
+    }
+
+
+</style>
+

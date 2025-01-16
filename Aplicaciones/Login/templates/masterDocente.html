@@ -1,0 +1,255 @@
+{% load static %}
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Unidad Educativa CERIT</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    
+    <!--Importando CSS-->
+    <link rel="stylesheet" href="{% static 'css/Master/estilos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/AportesTrimestrales/AportesTrimestrales.css' %}">
+
+    <!-- Chart JS -->
+    <script src="{% static 'plantilla/assets/js/plugin/chart.js/chart.min.js' %}"></script>
+    
+
+    <!--Importando jQuery-->
+    <script src="{% static 'plantilla/assets/js/core/jquery-3.7.1.min.js' %}"></script>
+
+    <!-- importando jquery validate -->
+    <script src="{% static 'plantilla/assets/js/plugin/jquery.validate/jquery.validate.min.js'%}"></script>
+
+
+    <link rel="icon" href="{% static 'plantilla/assets/img/kaiadmin/favicon.ico' %}" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script src="{% static 'plantilla/assets/js/plugin/webfont/webfont.min.js' %}"></script>
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["{% static 'plantilla/assets/css/fonts.min.css' %}"],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{% static 'plantilla/assets/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'plantilla/assets/css/plugins.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'plantilla/assets/css/kaiadmin.min.css' %}" />
+   
+
+
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <!-- <link rel="stylesheet" href="{% static 'static/plantilla/assets/css/demo.css' %}" />-->
+
+    <style>
+        label.error {
+            color: red;
+        }
+
+        .form-control.error {
+            border: 1px solid red;
+        }
+    </style>
+    
+
+</head>
+
+<body>      
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a class="navbar-brand" href="{% url 'docenteHome' %}"><img src="{% static 'img/logoCerit.png' %}" alt="" width="30%"></a>
+          <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon "></span>
+          </button>
+            <div class="collapse navbar-collapse justify-content-end " id="navbarNavDarkDropdown">
+                <ul class="navbar-nav  ">
+                    <li class="nav-item dropdown ">
+                        
+                        &nbsp;&nbsp;
+                        <button class="btn btn-primary dropdown-toggle " data-bs-toggle="dropdown" aria-expanded="false">
+                            Bienvenido, {{ nombre_docente }}
+                        </button>
+                        <ul class="dropdown-menu  dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                                    <i class="fas fa-file-alt"></i> &nbsp;Ver Datos 
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'cerrarSesion' %}">
+                                    <i class="fas fa-sign-in-alt"></i> &nbsp; Cerrar sesón
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </nav>
+
+    {% block body %}
+
+
+
+    {% endblock %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Perfil del docente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Cedula:</strong> {{ docente.cedula }}</p>
+                    <p><strong>Nombre:</strong> {{ docente.primer_nombre }} {{ docente.segundo_nombre }}</p>
+                    <p><strong>Apellido Paterno:</strong> {{ docente.apellido_Paterno }}</p>
+                    <p><strong>Apellido Materno:</strong> {{ docente.apellido_Materno }}</p>
+                    <p><strong>Especialidad:</strong> {{ docente.especialidad }}</p>
+                    <p><strong>Teléfono:</strong> {{ docente.telefono }}</p>
+                    <p><strong>Email:</strong> {{ docente.email }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br><br><br><br><br>
+     <!-- FOOTER -->
+    <footer class="bg-primary text-white text-center py-3">
+        <div class="container">
+            <div class="row">
+                <!-- Información principal -->
+                <div class="col-md-12">
+                    
+                    <p>cerit Unidad Educativa</p>
+                </div>
+            </div>
+            <hr class="bg-light">
+            <div class="row">
+                <div class="col-12">
+                    <small>&copy; 2024 CERIT. Todos los derechos reservados.</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    
+
+    {%if messages%}
+        {%for mensaje in messages%}
+            {%if mensaje.tags == 'success'%}
+                <script>
+                    Swal.fire({
+                        title: "Confirmado",
+                        text: "{{mensaje}}",
+                        icon: "success"
+                    });
+                </script>
+            {%endif%}
+
+        {%endfor%}
+
+    {% endif %}
+
+   
+    <!--Importando JS-->
+    <script src="{% static 'js/Admin/registroDocente.js' %}"></script>
+
+    <!--   Core JS Files   -->
+
+    <script src="{% static 'plantilla/assets/js/core/popper.min.js' %}"></script>
+    <script src="{% static 'plantilla/assets/js/core/bootstrap.min.js' %}"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script src="{% static 'plantilla/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
+
+    <!-- Chart JS -->
+    <script src="{% static 'plantilla/assets/js/plugin/chart.js/chart.min.js' %}"></script>
+
+    <!-- jQuery Sparkline -->
+    <script src="{% static 'plantilla/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js' %}"></script>
+
+    <!-- Chart Circle -->
+    <script src="{% static 'plantilla/assets/js/plugin/chart-circle/circles.min.js' %}"></script>
+
+    <!-- Datatables -->
+    <script src="{% static 'plantilla/assets/js/plugin/datatables/datatables.min.js' %}"></script>
+
+    <!-- FullCalendar CSS -->
+    <script src="{% static 'plantilla/assets/js/plugin/fullcalendar/fullcalendar.min.js' %}"></script>
+ 
+
+
+    <!-- Bootstrap Notify -->
+    <script src="{% static 'plantilla/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js' %}"></script>
+
+    <!-- jQuery Vector Maps -->
+     <!--<script src="{% static 'plantilla/assets/js/plugin/jsvectormap/jsvectormap.min.js' %}"></script>
+    <script src="{% static 'plantilla/assets/js/plugin/jsvectormap/world.js' %}"></script>-->
+
+    <!-- Sweet Alert -->
+    <script src="{% static 'plantilla/assets/js/plugin/sweetalert/sweetalert.min.js' %}"></script>
+
+    <!-- Kaiadmin JS -->
+    <script src="{% static 'plantilla/assets/js/kaiadmin.min.js' %}"></script>
+
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <!--<script src="{% static 'plantilla/assets/js/setting-demo.js' %}"></script>
+    <script src="{% static 'plantilla/assets/js/demo.js' %}"></script>-->
+    <script>
+        $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#177dff",
+            fillColor: "rgba(23, 125, 255, 0.14)",
+        });
+
+        $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#f3545d",
+            fillColor: "rgba(243, 84, 93, .14)",
+        });
+
+        $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#ffa534",
+            fillColor: "rgba(255, 165, 52, .14)",
+        });
+    </script>
+
+</body>
+
+</html>

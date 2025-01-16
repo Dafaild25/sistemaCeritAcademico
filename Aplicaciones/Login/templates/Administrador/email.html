@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #f9f9f9;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animación para la lista de materias -->
+    <div class="container">
+        <h1>¡Bienvenido!</h1>
+        <p>Estimado/a {{ nombre | upper }},</p>
+        <p>Nos complace informarte que el estudiante {{ nombre_estudiante }} está matriculado en  el curso <strong>{{ curso }}</strong>.</p>
+        <p>A continuación se detallan las asignaturas y sus respectivos docentes:</p>
+        <ul>
+            {% for item in lista_asignaturas_docentes %}
+                <li>
+                    <strong>Asignatura:</strong> {{ item.asignatura }} <br>
+                    <strong>Docente:</strong> {{ item.docente }}
+                </li>
+            {% endfor %}
+        </ul>
+        <p>Si tienes alguna pregunta o inquietud, no dudes en ponerte en contacto con nosotros.</p>
+        <footer>
+            <p>Saludos cordiales,</p>
+            <p>El equipo de administración</p>
+        </footer>
+    </div>
+</body>
+</html>

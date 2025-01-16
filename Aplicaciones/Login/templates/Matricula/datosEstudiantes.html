@@ -1,0 +1,372 @@
+{% extends 'masterAdmin.html' %}
+{% load static %}
+{% block body %}
+
+<script src="{% static 'js/Matricula/adminCurso.js' %}" defer></script>
+<br><br>
+<!-- Campos para Estudiante -->
+<div class="container" id="formularioEditar_Estudiante">
+    <div class="row">
+        <div class="col-12">
+            <form  id="formEditarEstudiante">
+
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="text-center">Datos del Estudiante</h2>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <center>
+                    <input type="hidden" id="estudianteId">
+                    <div class="row">
+                        <hr>
+                        <h4 class="text-center">Usuario y contraseña</h4>
+                        <div class="col-6">
+                            <label for="editarUsername" class="form-label">Nombre de Usuario:</label>
+                            <input type="text" id="editarUsername" name="username"  class="form-control">                            
+                        </div>
+                        <div class="col-6">
+                            <label for="editarPassword" class="form-label">Nueva Contraseña:</label>
+                            <input type="text" id="editarPassword" name="password" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="row">
+                        <h4 class="text-center">Datos Generales</h4>
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <label for="editarCedula_estudiante">Cedula:</label><br>
+                            <input type="text" name="cedula" id="editarCedula_estudiante"
+                                class="form-control"><br>
+                        </div>
+                        <div class="col-3"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="editarPrimer_nombre_estudiante">Primer Nombre:</label><br>
+                            <input type="text" name="primer_nombre" id="editarPrimer_nombre_estudiante"
+                                class="form-control"><br>
+                        </div>
+                        <div class="col-6">
+                            <label for="editarSegundo_nombre_estudiante">Segundo Nombre:</label><br>
+                            <input type="text" name="segundo_nombre" id="editarSegundo_nombre_estudiante"
+                                class="form-control"><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="editarApellido_Paterno_estudiante">Apellido Paterno:</label><br>
+                            <input type="text" name="apellido_Paterno"
+                                id="editarApellido_Paterno_estudiante" class="form-control"><br>
+                        </div>
+                        <div class="col-6">
+                            <label for="editarApellido_Materno_estudiante">Apellido Materno:</label><br>
+                            <input type="text" name="apellido_Materno"
+                                id="editarApellido_Materno_estudiante" class="form-control"><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="editarEmail_estudiante">Correo electrónico:</label><br>
+                            <input type="email" name="email" id="editarEmail_estudiante"
+                                class="form-control"><br>
+                        </div>
+                        <div class="col-6">
+                            <label for="editarTelefono_estudiante">Teléfono:</label><br>
+                            <input type="text" name="telefono" id="editarTelefono_estudiante"
+                                class="form-control"><br>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="editarFecha_nacimiento_estudiante">Fecha de Nacimiento:</label><br>
+                            <input type="date" name="fecha_nacimiento" id="editarFecha_nacimiento_estudiante"
+                                class="form-control"><br>
+                        </div>
+                        <div class="col-6">
+                            <label for="editarEstado_estudiante">Estado:</label><br>
+                            <select name="estado" id="editarEstado_estudiante" class="form-control">
+                                <option value="">Seleccione el estado</option>
+                                <option value="ACTIVO">Activo</option>
+                                <option value="INACTIVO">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="editarCiudad_estudiante">Ciudad:</label><br>
+                            <input type="text" name="ciudad"
+                                id="editarCiudad_estudiante" class="form-control"><br>
+                        </div>
+                        <div class="col-6">
+                            <label for="editarDireccion_estudiante">Dirección:</label><br>
+                            <input type="text" name="direccion"
+                                id="editarDireccion_estudiante" class="form-control"><br>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <!-- REGISTRO DE REPRESENTANTES -->
+                    <br>
+                   
+                    <div class="row">
+                        <div class="col-12">
+                            <h3 class="text-center">Datos Generales del Representante</h3>
+                        </div>
+                    </div>
+                    <br>
+
+                    <center>
+        
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="editarCedula_R1">Cedula:</label><br>
+                                <input type="text" name="cedula_R1" id="editarCedula_R1"
+                                    class="form-control"><br>
+                            </div>
+                            <div class="col-6">
+                                <label for="editarNombres_R1">Nombres:</label><br>
+                                <input type="text" name="nombres_R1" id="editarNombres_R1"
+                                    class="form-control"><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="editarApellido_Paterno_R1">Apellido Paterno:</label><br>
+                                <input type="text" name="apellido_paterno_R1"
+                                    id="editarApellido_Paterno_R1" class="form-control"><br>
+                            </div>
+                            <div class="col-6">
+                                <label for="editarApellido_Materno_R1">Apellido Materno:</label><br>
+                                <input type="text" name="apellido_materno_R1"
+                                    id="editarApellido_Materno_R1" class="form-control"><br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="editarEmail_R1">Correo electrónico:</label><br>
+                                <input type="email" name="email_R1" id="editarEmail_R1"
+                                    class="form-control"><br>
+                            </div>
+                            <div class="col-6">
+                                <label for="editarCelular_R1">Teléfono:</label><br>
+                                <input type="text" name="celular_R1" id="editarCelular_R1"
+                                    class="form-control"><br>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="editarParentesco_R1">Parentesco:</label><br>
+                                <select name="parentesco_R1" id="editarParentesco_R1" class="form-control">
+                                    <option value="">Seleccione el parentesco</option>
+                                    <option value="Padre">Padre</option>
+                                    <option value="Madre">Madre</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="editarEstado_R1">Estado:</label><br>
+                                <select name="estado_R1" id="editarEstado_R1" class="form-control">
+                                    <option value="">Seleccione el estado</option>
+                                    <option value="ACTIVO">Activo</option>
+                                    <option value="INACTIVO">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </center>
+
+                    <br>
+                    <hr>
+                    <div class="accordion" id="accordionRepresentantes">
+                        <!-- REPRESENTANTE 1 -->
+                       
+                        <!-- REPRESENTANTE 2 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Representante 2
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionRepresentantes">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3 class="text-center">Datos del Representante</h3>
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <center>
+                        
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label for="editarCedula_R2">Cedula:</label><br>
+                                                <input type="text" name="cedula_R2" id="editarCedula_R2"
+                                                    class="form-control"><br>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="editarNombres_R2">Nombres:</label><br>
+                                                <input type="text" name="nombres_R2" id="editarNombres_R2"
+                                                    class="form-control"><br>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label for="editarApellido_Paterno_R2">Apellido Paterno:</label><br>
+                                                <input type="text" name="apellido_paterno_R2"
+                                                    id="editarApellido_Paterno_R2" class="form-control"><br>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="editarApellido_Materno_R2">Apellido Materno:</label><br>
+                                                <input type="text" name="apellido_materno_R2"
+                                                    id="editarApellido_Materno_R2" class="form-control"><br>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label for="editarEmail_R2">Correo electrónico:</label><br>
+                                                <input type="email" name="email_R2" id="editarEmail_R2"
+                                                    class="form-control"><br>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="editarCelular_R2">Teléfono:</label><br>
+                                                <input type="text" name="celular_R2" id="editarCelular_R2"
+                                                    class="form-control"><br>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label for="editarParentesco_R2">Parentesco:</label><br>
+                                                <select name="parentesco_R2" id="editarParentesco_R2" class="form-control">
+                                                    <option value="">Seleccione el parentesco</option>
+                                                    <option value="Padre">Padre</option>
+                                                    <option value="Madre">Madre</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="editarEstado_R2">Estado:</label><br>
+                                                <select name="estado_R2" id="editarEstado_R2" class="form-control">
+                                                    <option value="">Seleccione el estado</option>
+                                                    <option value="ACTIVO">Activo</option>
+                                                    <option value="INACTIVO">Inactivo</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- REPRESENTANTE 3 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Representante 3
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionRepresentantes">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3 class="text-center">Datos del Representante</h3>
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <center>
+                        
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label for="editarCedula_R3">Cedula:</label><br>
+                                                <input type="text" name="cedula_R3" id="editarCedula_R3"
+                                                    class="form-control"><br>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="editarNombres_R3">Nombres:</label><br>
+                                                <input type="text" name="nombres_R3" id="editarNombres_R3"
+                                                    class="form-control"><br>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label for="editarApellido_Paterno_R3">Apellido Paterno:</label><br>
+                                                <input type="text" name="apellido_paterno_R3"
+                                                    id="editarApellido_Paterno_R3" class="form-control"><br>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="editarApellido_Materno_R3">Apellido Materno:</label><br>
+                                                <input type="text" name="apellido_materno_R3"
+                                                    id="editarApellido_Materno_R3" class="form-control"><br>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label for="editarEmail_R3">Correo electrónico:</label><br>
+                                                <input type="email" name="email_R3" id="editarEmail_R3"
+                                                    class="form-control"><br>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="editarCelular_R3">Teléfono:</label><br>
+                                                <input type="text" name="celular_R3" id="editarCelular_R3"
+                                                    class="form-control"><br>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label for="editarParentesco_R3">Parentesco:</label><br>
+                                                <select name="parentesco_R3" id="editarParentesco_R3" class="form-control">
+                                                    <option value="">Seleccione el parentesco</option>
+                                                    <option value="Padre">Padre</option>
+                                                    <option value="Madre">Madre</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for="editarEstado_R3">Estado:</label><br>
+                                                <select name="estado_R3" id="editarEstado_R3" class="form-control">
+                                                    <option value="">Seleccione el estado</option>
+                                                    <option value="ACTIVO">Activo</option>
+                                                    <option value="INACTIVO">Inactivo</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                                                                               
+                   
+                    <br><br>
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Botón para enviar el formulario -->
+                            <center>
+                                <button type="button" class="btn btn-success" onclick="actualizarDatosEstudiante()">Actualizar</button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                
+                                <a href="{% url 'adminCurso'%}" type="button" class="btn btn-danger">Cancelar</a>
+                            </center>
+
+                        </div>
+                    </div>
+
+                </center>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

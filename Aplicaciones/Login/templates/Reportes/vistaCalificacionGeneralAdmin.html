@@ -1,0 +1,141 @@
+
+<div class="container">
+    {% load filtros %}
+     <input type="hidden" id="periodoGeneralTrimestral" value="{{periodoGeneral.id}}">   
+    <div class="container mx-0 " id="cuaderno-notas">
+        <br>
+        <div id="datatable-search-container"></div>
+    
+        {% if matriculas %}
+        <div class="table-responsive" id="contenedor-tabla-deslizante">
+            <table class="tabla-contenedora mx-0" id="tbl-calificacion-general-admin">
+                <thead>
+                    <tr>
+                        <th class="fixed-column enumerados text-center">N°</th>
+                        <th class="fixed-column nominas text-center">NÓMINA DE ESTUDIANTES DEL {{ clase.curso_id.nombre }}</th>
+                        {% for trimestre in trimestres %}
+                            <th class="grade-column text-center">{{trimestre.nombre}}</th>
+                            {% empty %}
+                            <tr>
+                                <td class="text-center">No hay trimestres.</td>
+                            </tr>
+                        {% endfor %}
+                        {% if examenesFinales %}
+                            {% for examen in examenesFinales %}
+                                <th class="grade-column supletorios text-center" scope="col">{{ examen.nombre }}  
+                                    <button class="btn btn-primary ver-supletorio btn-sm" 
+                                        data-estado="inactivo" 
+                                        onclick="manejarSupletorioAdmin(this)">
+                                        <i class="fas fa-file"></i>
+                                    </button>
+                                    <button class="btn btn-success btn-sm" 
+                                            data-estado="inactivo" 
+                                            data-examen-id="{{ examen.id }}"
+                                            onclick="guardarCalificacionExamenSupletorioAdmin(this)" 
+                                            style="display: none;"> 
+                                        <i class="fas fa-save"></i>
+                                    </button>
+                                </th>  
+                            {% endfor %}
+                        {% else %}
+                            <th class="text-center">No hay examenes.</th>
+                        {% endif %}
+                        <th  class="grade-column prom text-center">PROMEDIO </th>
+                       
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for matricula in matriculas %}
+                    <tr data-matri-id="{{ matricula.id }}">
+                        <td class="fixed-column enumerados letra">{{ forloop.counter }}</td>
+                        <td class="fixed-column nominas letra">
+                            {{ matricula.estudiante_id.apellido_Paterno }} 
+                            {{ matricula.estudiante_id.apellido_Materno }} 
+                            {{ matricula.estudiante_id.primer_nombre }} 
+                            {{ matricula.estudiante_id.segundo_nombre }}
+                        </td>
+
+                        {% for trimestre in trimestres %}
+                        <td class="grade-column text-center nota-input-promedio-general-trimestral" 
+                            data-matricula-id="{{ matricula.id }}" data-trimestre-id="{{ trimestre.id }}" data-clase-id="{{ clase.id }}">
+                            <span class="subpromedio-valor">Cargando...</span> 
+                        </td>
+                        {% empty %}
+                            <tr>
+                                <td class="text-center">No hay trimestres.</td>
+                            </tr>
+                        {% endfor %}
+                        {% for examen in examenesFinales %}
+                        <td class="grade-column supletorios text-center">
+                            <input type="text" class="text-center"
+                                data-matricula-examen="{{ matricula.id }}" 
+                                data-clase-id="{{ clase.id }}" 
+                                data-examen-id="{{ examen.id }}" 
+                                disabled>
+                        </td>
+                        {% endfor %}
+                        
+                        <td class="promedio-general text-start fs-6" data-matricula-id="{{matricula.id}}">0</td>
+                        
+                    
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">No hay alumnos.</td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="celeste " >
+                        <td  class="fixed-column enumerados text-center" >N</td>
+                        <td  class="fixed-column nominas text-center" >Total</td>
+                        {% for prom in promediosPorTrimestre %}
+                            <td class="grade-column text-center">{{prom.promedio}}</td>
+                            {% empty %}
+                            
+                             <td class="text-center">No hay trimestres.</td>
+                           
+                        {% endfor %}
+                        {% for examen in examenesFinales %}
+                        <td class="grade-column text-center">-</td>
+                        {% endfor %}
+
+                        <td  class="grade-column text-start fs-6" id="PromedioClaseGeneral"></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p>No hay alumnos.</p>
+        {% endif %}
+        <br>
+        <hr>
+    </div>
+</div>
+
+    
+    
+    <!-- Modal -->
+    <div class="modal fade" id="observacionModalExamen" tabindex="-1" aria-labelledby="observacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="observacionModalLabel">Observaciones</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form  id="observacionForm">
+                        <input type="hidden" id="observacionEditarExamen" name="observacionEditarExamenAdmin"> 
+                        <textarea  class="form-control" name="observacionesTextoExamen" id="observacionesTextoExamen"></textarea>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <!-- Si necesitas un botón para guardar cambios -->
+                    <button type="button" class="btn btn-primary" id="guardarObservacionBtn" onclick="guardarObservacionExamenAdmin()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    

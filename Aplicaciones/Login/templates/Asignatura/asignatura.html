@@ -1,0 +1,344 @@
+{% extends 'masterAdmin.html' %}
+{% load static %}
+{% block body %}
+
+<link rel="stylesheet" href="{% static 'css/Admin/estilos.css' %}">
+
+<style>
+    .scroll-container {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+    .hidden {
+            display: none;
+    }
+</style>
+
+
+{% comment %} <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <br><br>
+            <label>Periodo academico</label>
+            <select name="" id="periodoAcademico"></select> 
+            
+        </div>
+        <br><br>
+        
+    </div>
+    <br>
+</div> {% endcomment %}
+
+
+<div class="container mt-4">
+        <h2 class="text-center">Gestión de Asignaturas y Clases</h2>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <img src="{% static 'img/asignatura.png' %}" class="card-img-top" alt="Agregar Asignatura">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">ASIGNATURAS</h5>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <button id="registroAsignatura" class="btn btn-primary">Agregar</button>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <button id="verAsignatura" class="btn btn-secondary">Ver</button>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <button id="importarAsignatura" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#importarAsignaturasModal" >Importar <i class="fas fa-file-upload"></i></button>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <a href="{% static 'archivos/formato_importacion_asignaturas.xlsx' %}" download id="DescargarFormato" class="btn btn-outline-success">
+                                    Formato <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+           
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <img src="{% static 'img/asignaturasVer.png' %}" class="card-img-top" alt="Ver Asignaturas">
+                    <div class="card-body">
+                        <h5 class="card-title text-center"> CLASES </h5>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <button id="asignarClases" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarClasesModal">Agregar </button>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <button id="verClases" class="btn btn-success" onclick="vistaClases()" >Ver</button>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <button id="importarClases" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#importarClasesModal" >Importar <i class="fas fa-file-upload"></i></button>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <a href="{% static 'archivos/formato_importacion_clases.xlsx' %}" download id="DescargarFormato" class="btn btn-outline-success">
+                                    Formato <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    
+    
+        <div id="content" class="scroll-container">
+            <!-- Contenido estático para mostrar/ocultar -->
+            <div id="formularioAsignatura" class="card mb-3 hidden">
+                <div class="card-body">
+                    <h5 class="card-title">Agregar Asignatura</h5>
+                    <form id="asignaturaForm" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre:</label>
+                                    <input type="text" id="nombre" name="nombre" class="form-control" required>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nivel">Nivel:</label>
+                                    <select id="nivel" name="nivel" class="form-control" required>
+                                        <option value="INICIAL">Inicial</option>
+                                        <option value="BASICO">Básico</option>
+                                        <option value="BACHILLERATO">Bachillerato</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="estado">Estado:</label>
+                                    <select id="estado" name="estado" class="form-control" required>
+                                        <option value="ACTIVO">Activo</option>
+                                        <option value="INACTIVO">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="descripcion">Descripción:</label>
+                                    <textarea id="descripcion" name="descripcion" class="form-control" rows="3" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    
+                        
+                        <div class="row">
+                            <div class="form-group mt-3">
+                                <button type="button" class="btn btn-primary"onclick='guardarDatosAsignatura()' >Guardar</button>
+                            </div>
+
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        
+            <div id="tarjetasAsignaturas" class="hidden">
+                
+            </div>
+
+            <div id="contenedor_clases" class="hidden">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="">Periodo Academico</label>
+                    <select name="cboPeriodo" id="cboPeriodo"></select>
+                    </div>
+                    
+                    
+                </div>
+
+                <div class="container" id="contenedor_cursoAsignatura">
+
+                </div>
+            </div>
+        </div>
+</div>
+
+
+
+<!-- Modal para Editar Asignatura -->
+<div class="modal fade" id="editarAsignaturaModal" tabindex="-1" aria-labelledby="editarAsignaturaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarAsignaturaModalLabel">Editar Asignatura</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarAsignatura">
+                    <div class="mb-3">
+                        <label for="editarNombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="editarNombre" name="nombre">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarNivel" class="form-label">Nivel</label>
+
+                        <select id="editarNivel" name="nivel" class="form-control" required>
+
+                            <option value="INICIAL">Inicial</option>
+                            <option value="BASICO">Básico</option>
+                            <option value="BACHILLERATO">Bachillerato</option>
+                        </select>
+
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarEstado" class="form-label">Estado:</label>
+                        <select id="editarEstado" name="estado" class="form-control" required>
+                            <option value="ACTIVO">Activo</option>
+                            <option value="INACTIVO">Inactivo</option>
+                        </select>
+                        
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarDescripcion" class="form-label">Descripción:</label>
+                        <input type="text" class="form-control" id="editarDescripcion" name="descripcion">
+
+                    </div>
+                    <input type="hidden" id="asignaturaId" name="asignaturaId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="actualizarAsignatura()">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal para agregar docente asignatura  -->
+
+
+<!-- Modal para agregar clases -->
+<div class="modal fade" id="agregarClasesModal" tabindex="-1" aria-labelledby="agregarClasesLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarClasesLabel">Agregar Clases</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAgregarClases">
+                    <div class="form-group mb-3">
+                        <label for="periodoAcademico">Período Académico:</label>
+                        <select id="periodoAcademicoClase" name="periodoAcademicoClase" class="form-control" required>
+                            <!-- Opciones de períodos académicos -->
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="curso">Curso:</label>
+                                <select id="cboCursos" name="cboCursos" class="form-control" required>
+                                    <!-- Opciones de cursos -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="asignatura">Asignatura:</label>
+                                <select id="cboAsignatura" name="cboAsignatura" class="form-control" required>
+                                    <!-- Opciones de asignaturas -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group mb-3">
+                                <label for="docente">Docente:</label>
+                                <select id="cboDocente" name="cboDocente" class="form-control" required>
+                                    <!-- Opciones de docentes -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="form-group mt-3">
+                        <button type="button" class="btn btn-primary" onclick="guardarCursoAsignatura()" >Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal para importar clases -->
+<div class="modal fade" id="importarClasesModal" tabindex="-1" aria-labelledby="importarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="importarModalLabel">Importar Archivo de Clases</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formImportar" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="archivoImportar" class="form-label">Selecciona un archivo</label>
+                        <input class="form-control" type="file" id="archivoImportar" name="archivoImportar" required>
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="importarClases()">Importar</button>
+            </div>
+      </div>
+    </div>
+</div>
+
+<!-- Modal para importar asignaturas -->
+<div class="modal fade" id="importarAsignaturasModal" tabindex="-1" aria-labelledby="importarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="importarModalLabel">Importar Archivo de Asignaturas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formImportarAsignatura" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="archivoImportarAsignatura" class="form-label">Selecciona un archivo</label>
+                        <input class="form-control" type="file" id="archivoImportarAsignatura" name="archivoImportarAsignatura" required>
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="importarAsignaturas()">Importar</button>
+            </div>
+      </div>
+    </div>
+</div>
+
+
+<script src="{% static 'js/Asignatura/asignatura.js' %}"></script>
+
+
+{% endblock %}

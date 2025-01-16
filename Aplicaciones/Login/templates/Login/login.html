@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/Login/login.css' %}">
+
+    <script src="{% static 'js/Login/login.js' %}" defer></script>
+
+    <!--Importando jQuery-->
+    <script src="{% static 'plantilla/assets/js/core/jquery-3.7.1.min.js' %}"></script>
+
+    <!-- importando Bootstrap -->
+    <script src="{% static 'plantilla/assets/js/core/popper.min.js' %}"></script>
+    <script src="{% static 'plantilla/assets/js/core/bootstrap.min.js' %}"></script>
+
+    <!-- importando jquery validate -->
+    <script src="{% static 'plantilla/assets/js/plugin/jquery.validate/jquery.validate.min.js'%}"></script>
+
+    <!-- importando font-awesome para las iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <link rel="icon" href="{% static 'plantilla/assets/img/kaiadmin/favicon.ico' %}" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script src="{% static 'plantilla/assets/js/plugin/webfont/webfont.min.js' %}"></script>
+    <script>
+      WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["{% static 'plantilla/assets/css/fonts.min.css' %}"],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script>
+
+    <!-- Importando Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'plantilla/assets/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'plantilla/assets/css/plugins.min.css' %}" />
+   
+
+</head>
+<body>
+  <div class="wrapper">
+        <form method="POST" class="form">
+          {% csrf_token %}
+          <h1 class="title">Inicio</h1>
+          <div class="inp">
+              <input type="username" id="username" name="username" class=" input" placeholder="Usuario" >
+              <i class="fa-solid fa-user"></i>
+          </div>
+          <div class="inp">
+              <input type="password" id="password" name="password" class=" input" placeholder="Contraseña" >
+              <i class="fa-solid fa-eye" id="verContraseña" style="cursor: pointer; margin-left: 10px;"></i>
+          </div>
+          <button type="submit" class="submit"> Iniciar Sesion</button>
+          <br>
+          <div>
+          
+           <a href="#" id="boton_cambio_contraseña">¿Olvidó su contraseña?</a>
+          </div>
+  
+        </form>
+      <div class="banner">
+          <h1 class="wel_text">BIENVENIDO <br></h1>
+          <img src="{% static 'img/logoCerit.png' %}" alt="" width="20%">
+      </div>
+  </div>
+
+    <!-- Modal para cambiar la contraseña -->
+    <div class="modal fade" id="CambiarContraseñaModal" tabindex="-1" role="dialog" aria-labelledby="CambiarContraseñaModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CambiarContraseñaModalLabel">Cambio de Contraseña</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" onclick="cerrarModalCambioContraseña()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Parte de búsqueda de usuario (siempre visible) -->
+                    <div id="buscarUsuarioDiv" class="d-flex flex-column align-items-center">
+                        <p>Ingrese su usuario</p>
+                        <input type="text" class="form-control" id="usernameBuscar" required aria-label="Usuario a buscar">
+                        <br>
+                        <button type="button" id="botonBuscarUsuario" class="btn btn-primary" onclick="buscarUsuario()">Buscar Usuario</button>
+                    </div>
+                    <hr>
+
+                    <!-- Parte de correo y código de verificación (inicialmente oculta) -->
+                    <div id="verificacionCodigoDiv" style="display:none;">
+                        <p> Ingrese su correo para mayor seguridad:</p>
+                        
+                        <input type="email" id="email" placeholder="Correo Electrónico" class="form-control">
+                        <br>
+                        <button type="button" class="btn btn-primary" id="boton_enviar_codigo" onclick="enviarCodigoEmail()">Enviar Código</button>
+                                                
+                        <div id="verificationInputContainer" style="display: none;">
+                            <input type="text" id="codigoVerificacion" placeholder="Código de verificación" class="form-control mt-2">
+                            <br>
+                            <button type="button" class="btn btn-primary" id="boton_verificar_codigo" onclick="verificarCodigo()">Verificar Código</button>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Parte para cambiar la contraseña (inicialmente oculta) -->
+                    <div id="cambiarContraseñaDiv" style="display:none;">
+                        <p id="greeting"></p>
+                        
+                        <form id="changePasswordForm">
+                            {% csrf_token %}
+                            <input type="hidden" id="userId" name="userId">
+                            <div class="form-group text-center">
+                                <div style="position: relative;">
+                                    <input type="password" id="newPassword" name="newPassword" placeholder="Nueva Contraseña" class="form-control" required aria-label="Nueva Contraseña">
+                                    <i class="fa-solid fa-eye" id="iconoNuevaContraseña" style="cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></i>
+                                </div>
+                                <br>
+                                <div style="position: relative;">
+                                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmar Contraseña" class="form-control" required aria-label="Confirmar Contraseña">
+                                    <i class="fa-solid fa-eye" id="iconoConfirmarContraseña" style="cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></i>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="errorDiv" style="display:none; color:red;">
+                        <p id="errorMessage"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModalCambioContraseña()">Cerrar</button>
+                    <button type="button" id="savePasswordBtn" class="btn btn-primary" style="display:none;" onclick="cambiarContra()">Guardar Contraseña</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   <!-- Modal para mostrar mensajes de error de autenticacion -->
+    <div class="modal fade" id="errorModalAutenticacion" tabindex="-1" role="dialog" aria-labelledby="errorModalAutenticacionLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <center>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p>{{ message }}</p>  <!-- Aquí mostramos el mensaje de error -->
+                            {% endfor %}
+                        {% endif %}
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"  onclick="cerrarModalAutenticacion()">Aceptar</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mostrar modal si hay un mensaje de error -->
+    {% if messages %}
+      <script>
+        $(document).ready(function() {
+          $('#errorModalAutenticacion').modal('show');
+        });
+      </script>
+    {% endif %}
+
+</body>
+</html>
+
+    
+    
+

@@ -1,0 +1,498 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Unidad Educativa CERIT</title>
+        <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+
+        <!--Importando CSS-->
+        <link rel="stylesheet" href="{% static 'css/Admin/estilos.css' %}">
+        <link rel="stylesheet" href="{% static 'css/Master/estilos.css' %}">
+
+        <!-- Chart JS -->
+        <script src="{% static 'plantilla/assets/js/plugin/chart.js/chart.min.js' %}"></script>
+
+        <!--Importando jQuery-->
+        <script src="{% static 'plantilla/assets/js/core/jquery-3.7.1.min.js' %}"></script>
+
+        <!-- importando jquery validate -->
+        <script src="{% static 'plantilla/assets/js/plugin/jquery.validate/jquery.validate.min.js'%}"></script>
+
+        <!-- importando sweetalert -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- importando font-awesome para las iconos -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <link rel="icon" href="{% static 'plantilla/assets/img/kaiadmin/favicon.ico' %}" type="image/x-icon" />
+
+        <!-- Fonts and icons -->
+        <script src="{% static 'plantilla/assets/js/plugin/webfont/webfont.min.js' %}"></script>
+        <script>
+            WebFont.load({
+                google: { families: ["Public Sans:300,400,500,600,700"] },
+                custom: {
+                    families: [
+                        "Font Awesome 5 Solid",
+                        "Font Awesome 5 Regular",
+                        "Font Awesome 5 Brands",
+                        "simple-line-icons",
+                    ],
+                    urls: ["{% static 'plantilla/assets/css/fonts.min.css' %}"],
+                },
+                active: function () {
+                    sessionStorage.fonts = true;
+                },
+            });
+        </script>
+
+        <!-- CSS Files -->
+        <link rel="stylesheet" href="{% static 'plantilla/assets/css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'plantilla/assets/css/plugins.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'plantilla/assets/css/kaiadmin.min.css' %}" />
+
+
+        <!-- CSS Just for demo purpose, don't include it in your project -->
+        <!-- <link rel="stylesheet" href="{% static 'static/plantilla/assets/css/demo.css' %}" />-->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        nav.navbar {
+            width: 100%;
+        }
+
+        #content {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+            transition: all 0.3s ease-in-out; /* Transición suave */
+        }
+
+        #sidebar {
+            width: 250px;
+            background: #4321D9;
+            color: #fff;
+            overflow-y: auto;
+            transition: transform 0.3s ease-in-out; /* Transición suave para el sidebar */
+        }
+
+        #sidebar.hidden {
+            transform: translateX(-100%); /* Oculta el sidebar moviéndolo fuera de la pantalla */
+            width: 0;
+            
+        }
+
+        #mainContent {
+            flex-grow: 1; /* El contenido principal se ajusta al espacio disponible */
+            padding: 20px;
+            background: #f8f9fa;
+            overflow-y: auto;
+            transition: all 0.5s ease-in-out; /* Transición suave para el contenido */
+        }
+
+       
+    </style>
+
+    </head>
+
+    <body>     
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light " style="background: #262D59;">
+            <div class="container-fluid">
+                <button class="btn btn-primary" id="toggleSidebar"><i class="fas fa-bars"></i></button>
+                <a class="navbar-brand ms-3" style="background-color: white;padding: 5px;" href="#">
+                    <img src="{% static 'img/logoCerit.png' %}" alt="Logo CERIT" class="rounded-circle" width="30" height="30">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                 <!-- Menú desplegable -->
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDarkDropdown">
+                        <ul class="navbar-nav">
+                            <!-- Menú de usuario -->
+                            <li class="nav-item dropdown">
+                                <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Bienvenido, {{ nombre_admin }}
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#adminModal">
+                                            <i class="fas fa-user-alt"></i> &nbsp; Perfil
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'cerrarSesion' %}"><i class="fas fa-sign-in-alt"></i> &nbsp; Cerrar sesión</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+            </div>
+        </nav>
+
+        <div id="content">
+            <div id="sidebar">
+                <h4 class="text-center py-3">Menú</h4>
+                <nav class="nav flex-column">
+                    <a class="nav-link text-white py-2" href="{% url 'adminHome' %}">
+                        <i class="fas fa-home me-2"></i>Inicio
+                    </a>
+                    <a class="nav-link text-white py-2" href="{% url 'vistaPeriodo' %}">
+                        <i class="fas fa-calendar me-2"></i>Periodo
+                    </a>
+                    <a class="nav-link text-white py-2" href="{% url 'registro' %}">
+                        <i class="fas fa-user me-2"></i>Usuarios
+                    </a>
+                    <a class="nav-link text-white py-2" href="{% url 'asignatura' %}">
+                        <i class="fas fa-book me-2"></i>Asignaturas
+                    </a>
+                    <a class="nav-link text-white py-2" href="{% url 'adminCurso' %}">
+                        <i class="fas fa-file me-2"></i>Matrículas
+                    </a>
+                    <a class="nav-link text-white py-2" href="{% url 'reportes' %}">
+                        <i class="fas fa-pencil me-2"></i>Notas
+                    </a>
+                    <a class="nav-link text-white py-2" href="{% url 'vistaVariablesGlobales' %}">
+                        <i class="fas fa-search me-2"></i>General
+                    </a>
+                </nav>
+            </div>
+            <div id="mainContent">
+                {%block body%}
+                {%endblock%}
+            </div>
+        </div>
+
+        
+        
+
+        {%if messages%}
+            {%for mensaje in messages%}
+                {%if mensaje.tags == 'success'%}
+                    <script>
+                        Swal.fire({
+                            title: "Confirmado",
+                            text: "{{mensaje}}",
+                            icon: "success",
+                        });
+                    </script>
+                {%endif%}
+
+            {%endfor%}
+
+        {% endif %}
+
+        <!-- Modal -->
+        <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="adminModalLabel">Perfil del Administrador</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Cedula:</strong> {{ admin.cedula }}</p>
+                        <p><strong>Nombre:</strong> {{ admin.primer_nombre }} {{ admin.segundo_nombre }}</p>
+                        <p><strong>Apellido Paterno:</strong> {{ admin.apellido_Paterno }}</p>
+                        <p><strong>Apellido Materno:</strong> {{ admin.apellido_Materno }}</p>
+                        <p><strong>Teléfono:</strong> {{ admin.telefono }}</p>
+                        <p><strong>Email:</strong> {{ admin.email }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+   <!-- Modal para actualizar docentes -->
+<div class="modal fade" id="modalEditarDocente" tabindex="-1" aria-labelledby="modalEditarDocenteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarDocenteLabel">Editar Docente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarDocente">
+                    <input type="hidden" id="docenteId">
+
+                    <!-- Usuario y Contraseña -->
+                    <div class="row">
+                        <h4 class="text-center mb-3">Usuario y Contraseña</h4>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" id="editarUsernameDocente" name="username" class="form-control" placeholder="Nombre de Usuario">
+                                <label for="editarUsernameDocente">Nombre de Usuario</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="password" id="editarPasswordDocente" name="password" class="form-control" placeholder="Nueva Contraseña">
+                                <label for="editarPasswordDocente">Nueva Contraseña</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Información General -->
+                    <div class="row">
+                        <h4 class="text-center mb-3">Información General</h4>
+                       
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" id="editarPrimerNombreDocente" name="primer_nombre" class="form-control" placeholder="Primer Nombre">
+                                <label for="editarPrimerNombreDocente">Primer Nombre</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" id="editarSegundoNombreDocente" name="segundo_nombre" class="form-control" placeholder="Segundo Nombre">
+                                <label for="editarSegundoNombreDocente">Segundo Nombre</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" id="editarApellidoPaternoDocente" name="apellido_Paterno" class="form-control" placeholder="Apellido Paterno">
+                                <label for="editarApellidoPaternoDocente">Apellido Paterno</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" id="editarApellidoMaternoDocente" name="apellido_Materno" class="form-control" placeholder="Apellido Materno">
+                                <label for="editarApellidoMaternoDocente">Apellido Materno</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" id="editarCedulaDocente" name="cedula" class="form-control" placeholder="Cédula">
+                                <label for="editarCedulaDocente">Cédula</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" id="editarDireccionDocente" name="direccion" class="form-control" placeholder="Dirección">
+                                <label for="editarDireccionDocente">Dirección</label>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" id="editarTelefonoDocente" name="telefono" class="form-control" placeholder="Teléfono">
+                                <label for="editarTelefonoDocente">Teléfono</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="email" id="editarEmailDocente" name="email" class="form-control" placeholder="Email">
+                                <label for="editarEmailDocente">Email</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" id="editarEspecialidadDocente" name="especialidad" class="form-control" placeholder="Especialidad">
+                                <label for="editarEspecialidadDocente">Especialidad</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select name="estado" id="editarEstadoDocente" class="form-control">
+                                    <option value="ACTIVO">Activo</option>
+                                    <option value="INACTIVO">Inactivo</option>
+                                </select>
+                                <label for="editarEstadoDocente">Estado</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Botones de Acción -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-success w-100" onclick="actualizarDocente()">Guardar Cambios</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="modal fade" id="modalEditarAdministrador" tabindex="-1" aria-labelledby="modalEditarAdministradorLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarAdministradorLabel">Editar Administrador</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarAdministrador">
+                        <input type="hidden" id="administradorId">
+                        
+                        <!-- Usuario y Contraseña -->
+                        <div class="row">
+                            <h4 class="text-center mb-3">Usuario y Contraseña</h4>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="editarUsernameAdministrador" name="username" class="form-control" placeholder="Nombre de Usuario">
+                                    <label for="editarUsernameAdministrador">Nombre de Usuario</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="password" id="editarPasswordAdministrador" name="password" class="form-control" placeholder="Nueva Contraseña">
+                                    <label for="editarPasswordAdministrador">Nueva Contraseña</label>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <hr class="my-4">
+                        
+                        <!-- Información General -->
+                        <div class="row">
+                            <h4 class="text-center mb-3">Información General</h4>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="editarCedulaAdministrador" name="cedula" class="form-control" placeholder="Cédula">
+                                    <label for="editarCedulaAdministrador">Cédula</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="editarDireccionAdministrador" name="direccion" class="form-control" placeholder="Dirección">
+                                    <label for="editarDireccionAdministrador">Dirección</label>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="editarPrimerNombreAdministrador" name="primer_nombre" class="form-control" placeholder="Primer Nombre">
+                                    <label for="editarPrimerNombreAdministrador">Primer Nombre</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="editarSegundoNombreAdministrador" name="segundo_nombre" class="form-control" placeholder="Segundo Nombre">
+                                    <label for="editarSegundoNombreAdministrador">Segundo Nombre</label>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="editarApellidoPaternoAdministrador" name="apellido_Paterno" class="form-control" placeholder="Apellido Paterno">
+                                    <label for="editarApellidoPaternoAdministrador">Apellido Paterno</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="editarApellidoMaternoAdministrador" name="apellido_Materno" class="form-control" placeholder="Apellido Materno">
+                                    <label for="editarApellidoMaternoAdministrador">Apellido Materno</label>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" id="editarTelefonoAdministrador" name="telefono" class="form-control" placeholder="Teléfono">
+                                    <label for="editarTelefonoAdministrador">Teléfono</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" id="editarEmailAdministrador" name="email" class="form-control" placeholder="Email">
+                                    <label for="editarEmailAdministrador">Email</label>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <hr class="my-4">
+                        
+                        <!-- Botones de Acción -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-success w-100" onclick="actualizarAdministrador()">Guardar Cambios</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+        <!-- Chart Circle -->
+        <script src="{% static 'plantilla/assets/js/plugin/chart-circle/circles.min.js' %}"></script>
+
+
+        <!-- Datatables -->
+        <script src="{% static 'plantilla/assets/js/plugin/datatables/datatables.min.js' %}"></script>
+        <!-- Bootstrap Notify -->
+        <script src="{% static 'plantilla/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js' %}"></script>
+   
+        <script>
+           document.addEventListener("DOMContentLoaded", function () {
+            const toggleButton = document.getElementById("toggleSidebar");
+            const sidebar = document.getElementById("sidebar");
+
+            toggleButton.addEventListener("click", function () {
+                sidebar.classList.toggle("hidden");
+            });
+        });
+        </script>
+
+    
+
+     
+    <!--   Core JS Files   -->
+
+    <script src="{% static 'plantilla/assets/js/core/popper.min.js' %}"></script>
+    <script src="{% static 'plantilla/assets/js/core/bootstrap.min.js' %}"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script src="{% static 'plantilla/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
+   
+</body>
+
+</html>

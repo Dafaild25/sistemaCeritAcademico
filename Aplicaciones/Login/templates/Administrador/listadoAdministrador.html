@@ -1,0 +1,56 @@
+<br><br>
+
+<div class="row">
+    <div class="col-6">
+        <h3 class="text-aling-center">Administradores </h3>
+    </div>
+    <div class="col-6 d-flex justify-content-end align-items-start">
+        <i class="fa fa-close fa-2x "  onclick="ocultarListado()"></i>
+    </div>
+    <br><br>
+</div>
+
+<table class="table" id="tbl-admin">
+    <thead>
+        <tr>
+            <th>N°</th> <!-- Número de Enumeración -->
+            <th>Usuario</th>
+            <th>Cédula</th> <!-- Número de Cédula -->
+            <th>Apellidos y Nombres</th> <!-- Apellidos y Nombres -->
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Acciones</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for administrador in administradores %}
+            <tr>
+                <td>{{ forloop.counter }}</td> <!-- Número de Enumeración -->
+                <td>{{ administrador.usuario.username }}</td>
+                <td>{{ administrador.cedula }}</td> <!-- Número de Cédula -->
+                <td>{{ administrador.apellido_Paterno }} {{ administrador.apellido_Materno }} {{ administrador.primer_nombre }} {{ administrador.segundo_nombre }}</td> <!-- Apellidos y Nombres -->
+                <td>{{ administrador.telefono }}</td>
+                <td>{{ administrador.email }}</td>
+                <td>
+                    <a href="#" class="btn btn-outline-warning btn-circle" onclick="obtenerAdministrador({{ administrador.id }})"  > <i class="fas fa-pencil"></i></a>
+                    <a href="#" onclick="eliminarAdministrador({{ administrador.id }})" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6">No hay docentes en este curso.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<style>
+    .btn-circle{
+        border-radius:100px !important;
+    }
+</style>
+

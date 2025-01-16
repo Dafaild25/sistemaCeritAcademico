@@ -1,0 +1,475 @@
+
+
+
+
+.tabla-contenedora{
+    overflow-x: auto;  /* Permite scroll horizontal */
+    
+    max-width: 100%;   /* Ajusta el ancho del contenedor según el tamaño de la pantalla */ 
+}
+
+
+table {
+    
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    min-width: 220px;
+  
+}
+
+ /* de la mimis  */
+ th, td {
+    padding: 8px; /* Espaciado interno */
+    border: 1px solid #dddddd;
+    text-align: center; /* Centrar texto en las celdas */
+}
+
+thead th {
+    background-color: #0074CC; /* Fondo azul para encabezados */
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase; /* Texto en mayúsculas */
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f3f3f3; /* Color de fondo alternado */
+}
+
+
+
+
+
+.fixed-column {
+    position: sticky;
+    left: 0;
+    background-color: #007aCC;
+    z-index: 10;
+}
+
+
+/* Columna N° con ancho de 20px */
+.fixed-column.enumerados {
+    left: 0; /* Mantiene esta columna fija en el lado izquierdo */
+    max-width: 5px;
+    width: 5px;
+    min-width: 5px;  /* Asegurar el ancho mínimo de 20px */
+    font-size: x-small;
+    color: #ffffff;
+}
+
+/* Columna NÓMINA DE ESTUDIANTES con ancho de 200px */
+.fixed-column.nominas {
+    left: 20px; 
+    max-width: 300px;
+    width: 300px;
+    padding-right: 0;
+    min-width: 300px;  /* Asegurar el ancho mínimo de 200px */
+    font-size: small;
+    text-align: left;
+    color: #ffffff;
+    
+}
+
+
+
+.fixed-column.curso {
+    
+    width: calc(100% - 250px); /* Asegura que ocupe el ancho restante */
+    background-color: #f2f2f2; /* Asegura que el fondo sea igual al de las otras columnas fijas */
+    z-index: 10; /* Asegúrate de que tenga un z-index superior si es necesario */
+}
+
+
+.notas{
+    font-size: x-small;
+}
+
+.promedio-valor {
+    padding: 0; /* Sin padding */
+    margin: 0; /* Sin margin */
+    width: 40px; /* Asegúrate de que la anchura sea correcta */
+    font-size: x-small; /* Tamaño de fuente pequeño */
+    display: inline-block; /* Esto asegura que el span se comporte como un bloque en línea */
+    text-align: center; /* Centrar el texto si es necesario */
+}
+
+
+.table-responsive {
+    overflow-x: auto; /* Permitir desplazamiento horizontal */
+    width: 100%; /* Ancho completo del contenedor */
+    position: relative; /* Asegura que tenga posición relativa */
+}
+
+.tabla-contenedora {
+    width: 100%; /* Asegúrate de que la tabla ocupe el ancho total */
+    min-width: 800px; /* O el ancho mínimo que necesites */
+}
+
+
+.grade-column {
+    
+    width: 40px; /* Ancho fijo para todas las columnas grade-column */
+    white-space: nowrap; /* Permite el salto de línea */
+    overflow-x: auto; /* Habilitar desplazamiento horizontal */
+    scroll-behavior: smooth; /* Desplazamiento suave */
+    vertical-align: top; /* Alinea el contenido al inicio de la celda */
+    text-overflow: ellipsis; 
+    box-sizing: border-box; /* Incluye el padding y el borde en el cálculo del ancho total */
+    
+}
+
+.grade-column.prom {
+    
+    width: 200px; /* Ancho fijo para todas las columnas grade-column */
+    white-space: nowrap; /* Permite el salto de línea */
+    overflow-x: auto; /* Habilitar desplazamiento horizontal */
+    scroll-behavior: smooth; /* Desplazamiento suave */
+    vertical-align: top; /* Alinea el contenido al inicio de la celda */
+    text-overflow: ellipsis; 
+    box-sizing: border-box; /* Incluye el padding y el borde en el cálculo del ancho total */
+    
+}
+
+
+
+
+.grade-column.tiposEvaluacion {
+    
+    width: 30px; /* Define un ancho fijo para las columnas de evaluación */
+    
+    text-align: center; /* Centrar el texto */
+    word-wrap: break-word; /* Asegura que el texto largo se ajuste dentro del ancho */
+}
+    
+.subpromedio, .porcentaje, .promedio-valor {
+    width: 40x; /* Ajusta según sea necesario */
+    font-size: x-small; /* Tamaño de fuente pequeño */
+    align-items: center;
+}
+
+.aporte-container {
+    position: relative; /* Para posicionar la franja superior */
+    padding-top: 10px; /* Espacio superior para que la franja no se sobreponga al contenido */
+    background-color: white;
+    white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+    overflow: hidden; /* Oculta el texto que se desborda */
+    text-overflow: ellipsis; /* Agrega los puntos suspensivos cuando el texto es demasiado largo */
+    width: 100px; /* Ancho fijo cuando no se hace hover */
+    display: inline-block; /* Para que se mantenga en línea */
+    transition: width 0.3s ease-in-out; /* Suaviza la animación al cambiar el ancho */
+}
+
+.aporte-container-unidad {
+    position: relative; /* Para posicionar la franja superior */
+    padding-top: 10px; /* Espacio superior para que la franja no se sobreponga al contenido */
+    
+}
+
+
+.franja-superior {
+    height: 6px; /* Altura de la franja superior */
+    width: 100%; /* Ancho completo */
+    border-radius: 5px 5px 0 0; /* Bordes redondeados en la parte superior */
+}
+
+.aporte-nombre {
+    font-size: 8px;
+    width: 120px;
+    color: black; /* El color del texto es negro para mayor contraste */
+}
+
+.aporte-nombre-unidad {
+    font-size: 12px;
+    width: 120px;
+    color: white; /* El color del texto es negro para mayor contraste */
+}
+.aporte-nombre-examen {
+    font-size: 12px;
+    width: 120px;
+    color: white; /* El color del texto es negro para mayor contraste */
+}
+.aporte-fecha {
+    font-size: 10px;
+    margin-top: 5px;
+    color: white; /* El color de la fecha es negro para mayor contraste */
+}
+
+.aporte-container:hover {
+    width: 120px; /* Estira el contenedor horizontalmente al hacer hover */
+    text-overflow: unset; /* Elimina los puntos suspensivos al hacer hover */
+    white-space: normal; /* Permite que el texto se ajuste a varias líneas si es necesario */
+    overflow: visible; /* Muestra el contenido que se desborda hacia abajo */
+}
+
+
+
+.aporte-nombre.unidad {
+    font-size: small; /* Tamaño de texto pequeño */
+    font-weight: bold; /* Texto en negrita */
+    text-align: center; /* Centrado horizontal del texto */
+    max-width: 100px;
+    width: 100px;
+    padding-right: 0;
+    min-width: 100px;  
+    color: #ffffff; /* Texto blanco */
+    letter-spacing: 1px; /* Espaciado entre letras */
+    text-shadow:
+        -1px -1px 0 #000,  
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000; /* Sombra negra para mejorar la legibilidad */
+}
+
+.grade-column.examen {
+    font-size: small; /* Tamaño de texto pequeño */
+    font-weight: bold; /* Texto en negrita */
+    text-align: center; /* Centrado horizontal del texto */
+    max-width: 400px;
+    width: 400px;
+    padding-right: 0;
+    min-width: 200px;  
+    color: #ffffff; /* Texto blanco */
+    
+    
+}
+.grade-column.promedioTrimestre {
+    font-size: small; /* Tamaño de texto pequeño */
+    font-weight: bold; /* Texto en negrita */
+    text-align: center; /* Centrado horizontal del texto */
+    max-width: 200px;
+    width: 200px;
+    padding-right: 0;
+    min-width: 200px;  
+    color: #ffffff; /* Texto blanco */
+   
+}
+
+
+
+/* Centrado vertical para el contenido dentro del <th> */
+th.grade-column.unidad {
+    vertical-align: middle; /* Centrar verticalmente */
+    text-align: center; /* Centrar horizontalmente */
+}
+th.grade-column.promedioTrimestre {
+    vertical-align: middle; /* Centrar verticalmente */
+    text-align: center; /* Centrar horizontalmente */
+}
+
+
+.aporte-fecha {
+    font-size: 10px; /* Tamaño de texto más pequeño para la fecha */
+    display: block; /* Asegura que esté en una línea separada */
+    color: black; /* Color del texto blanco */
+    
+    
+}
+
+.aporte-ponderacion{
+    font-size: 10px; /* Tamaño de texto más pequeño para la fecha */
+    display: block; /* Asegura que esté en una línea separada */
+    
+}
+.container {
+    max-width: 100%; /* Limita el ancho del contenedor al 100% del contenedor padre */
+    overflow-x: auto; /* Habilita el scroll horizontal en caso de que el contenido sea más ancho */
+}
+.subpromedio { background-color: #5da2c2; color: rgb(11, 10, 10); }
+
+/* observaciones */
+/* Solo aplicas flexbox a la clase observaciones */
+.observaciones {
+    
+    display: flex; /* Activa flexbox solo en esta celda */
+    align-items: center; /* Alinea verticalmente en el centro */
+    justify-content: center; /* Alinea horizontalmente a la izquierda */
+    gap: 5px; /* Espacio entre el input y el ícono */
+    text-align: center;
+    
+}
+
+/* Ajusta el ancho y el tamaño del input */
+.nota-input {
+    width: 40px; /* Hace que el input ocupe el 100% del ancho de la celda */
+    font-size: small;
+    border: none; /* Opcional: elimina el borde del input si no lo deseas */
+    padding: 0; /* Elimina el padding del input */
+    transition: border-color 0.3s ease; /* Transición suave para el cambio de borde */
+
+} 
+
+/* para los examenes trimestrales */
+.nota-input-examen  {
+    width: 40px; /* Hace que el input ocupe el 100% del ancho de la celda */
+    font-size: small;
+    border: none; /* Opcional: elimina el borde del input si no lo deseas */
+    padding: 0; /* Elimina el padding del input */
+    transition: border-color 0.3s ease; /* Transición suave para el cambio de borde */
+
+} 
+
+
+
+.highlight-input {
+    border: 2px solid #22b512; /* Borde celeste fluorescente */
+}
+
+/* Opcional: Estilo para inputs deshabilitados */
+.nota-input:disabled {
+    border: none; /* Elimina el borde cuando el input está deshabilitado */
+}
+.input-error {
+    border: 2px solid red;  /* Borde rojo para los campos con error */
+}
+
+
+/* para agregar el ojo de observacion */
+.input-group-text {
+    
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* Evita colores extraños alrededor del ícono */
+    border: none; /* Sin borde */
+    padding: 0; /* Elimina relleno */
+}
+
+.input-group-text i {
+    color: #f4a20a; /* Color del ícono */
+    font-size: 1em; /* Tamaño del ícono */
+}
+
+/* Botón de calificar */
+.btn-calificar {
+    background-color: white;
+    color: #4CAF50;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: outline 0.3s ease; /* Suavizar el efecto outline */
+    margin-right: 10px;
+}
+
+.btn-calificar:hover {
+    outline: 2px solid  white; /* Outline verde al hacer hover */
+    background-color: #4CAF50; /* Cambiar fondo a blanco al hover */
+    color: white; /* Cambiar el texto a verde */
+}
+
+.btn-calificar-examen {
+    background-color: white; /* Fondo transparente para integrarlo mejor con la celda */
+    color: #4CAF50; /* Color del ícono */
+    border: 2px solid #4CAF50; /* Borde del botón */
+    padding: 8px; /* Ajustar el tamaño del botón */
+    cursor: pointer;
+    margin-left: 10px; /* Espacio entre botones */
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Animaciones suaves */
+}
+
+.btn-calificar-examen:hover {
+    background-color: #faac05; /* Fondo verde al pasar el cursor */
+    color: white; /* Ícono blanco para contraste */
+    transform: scale(1.1); /* Agrandar ligeramente el botón al pasar el cursor */
+}
+
+.btn-calificar-examen.btn-guardar {
+    color: #faac05; /* Color fluorescente cuando está en modo guardar */
+    border-color: #faac05; /* Borde fluorescente */
+}
+
+.btn-calificar-examen.btn-guardar:hover {
+    background-color: #4CAF50; /* Fondo verde al pasar el cursor */
+    color: white; /* Ícono blanco para contraste */
+    transform: scale(1.1); /* Agrandar ligeramente el botón al pasar el cursor */
+}
+
+.btn-calificar-.nota-input-examen {
+    outline: 2px solid  white; /* Outline verde al hacer hover */
+    background-color: white; /* Cambiar fondo a blanco al hover */
+    color: white; /* Cambiar el texto a verde */
+}
+
+
+
+/* Botón de editar */
+.btn-edit {
+    background-color: white; /* Color de fondo azul */
+    color: #008CBA ;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: outline 0.3s ease; /* Suavizar el efecto outline */
+    margin-right: 10px;
+}
+
+.btn-edit:hover {
+    outline: 2px solid white ;  /* Outline azul al hacer hover */
+    background-color: #008CBA; /* Cambiar fondo a blanco al hover */
+    color: white; /* Cambiar el texto a azul */
+}
+
+.btn-edit-examen {
+    background-color: white; /* Color de fondo azul */
+    color: #008CBA ;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: outline 0.3s ease; /* Suavizar el efecto outline */
+}
+
+.btn-edit-examen:hover {
+    outline: 2px solid white ;  /* Outline azul al hacer hover */
+    background-color: #008CBA; /* Cambiar fondo a blanco al hover */
+    color: white; /* Cambiar el texto a azul */
+}
+
+/* Botón de eliminar */
+.btn-delete {
+    background-color: white; /* Color de fondo rojo */
+    color:  #f44336;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: outline 0.3s ease; /* Suavizar el efecto outline */
+}
+
+.btn-delete:hover {
+    outline: 2px solid white; /* Outline rojo al hacer hover */
+    background-color: #f44336; /* Cambiar fondo a blanco al hover */
+    color: white; /* Cambiar el texto a rojo */
+}
+
+/* color para los promedios de abajo  */
+.celeste {
+    background-color: #cce5ff; /* Azul claro que combina con #0074CC */
+    color: #004085; /* Azul oscuro para texto que resalta bien */
+}
+
+.celeste td {
+    padding: 8px; /* Espaciado interno para las celdas */
+    border: 1px solid #b8daff; /* Borde ligeramente más oscuro que el fondo */
+}
+
+.celeste td.fixed-column {
+    font-weight: bold; /* Resaltar las celdas con la clase "fixed-column" */
+}
+.celeste td.grade-column {
+    font-weight: bold; /* Resaltar las celdas con la clase "fixed-column" */
+}
+
+.calificacion-unidad {
+   
+    justify-content: center;  /* Alinea el contenido horizontalmente */
+    align-items: center;      /* Alinea el contenido verticalmente */
+    text-align: center;
+    font-size: 13px;
+    height: 100%; 
+}
+
+
+/* para los supletorios */

@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-6">
+        <h3 class="text-aling-center">Estudiantes </h3>
+    </div>
+    <div class="col-6 d-flex justify-content-end align-items-start">
+        <i class="fa fa-close fa-2x "  onclick="ocultarListado()"></i>
+    </div>
+    <br><br>
+</div>
+<br>
+<!-- Listado de estudiantes -->
+<table class="table" id="tbl-estudiantes">
+    <thead>
+        <tr>
+            <th>N°</th> <!-- Número de Enumeración -->
+            <th>Usuario</th>
+            <th>Cédula</th> <!-- Número de Cédula -->
+            <th>Apellidos y Nombres</th> <!-- Apellidos y Nombres -->
+            <th>Estado</th>
+            <th>Acciones</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for estudiante in estudiantes %}
+            <tr>
+                <td>{{ forloop.counter }}</td> <!-- Número de Enumeración -->
+                <td>{{ estudiante.usuario.username }}</td>
+                <td>{{ estudiante.cedula }}</td> <!-- Número de Cédula -->
+                <td>{{ estudiante.apellido_Paterno }} {{ estudiante.apellido_Materno }} {{ estudiante.primer_nombre }} {{ estudiante.segundo_nombre }} </td> <!-- Apellidos y Nombres -->
+                <td>{{ estudiante.estado }}</td> 
+                
+                <td class="text-center">
+                    <div class="d-flex justify-content-around">
+                        <a href="#" class="btn btn-outline-warning btn-circle mx-1" onclick="editarEstudiante({{ estudiante.id }})" title="Editar Estudiante">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a  onclick="eliminarEstudiante({{ estudiante.id }})" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="12">No hay estudiantes.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<style>
+    .btn-circle{
+        border-radius:100px !important;
+    }
+</style>

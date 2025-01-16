@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen Asistencias por Trimestre</title>
+    <link rel="stylesheet" href="{% static 'plantilla/assets/css/bootstrap.min.css' %}" />
+    <style>
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Altura mínima igual a la altura de la ventana */
+    margin: 0;
+}
+
+main {
+    flex: 1; /* El contenido principal se expande para llenar el espacio disponible */
+}
+
+footer {
+    background-color: #f9f9f9;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #555;
+}
+
+        table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 0.8em; /* Tamaño de fuente adecuado */
+  font-family: 'Arial', sans-serif;
+  text-align: left;
+  background-color: #f9f9f9; /* Color de fondo para la tabla */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+th, td {
+  padding: 8px; /* Espaciado interno */
+  border: 1px solid #dddddd;
+
+}
+
+thead th {
+  background-color: #f3f3f3  !important; /* Fondo azul para encabezados */
+  color: #000000 !important;
+  font-weight: bold;
+  text-transform: uppercase; /* Texto en mayúsculas */
+  align-content: center;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f3f3f3; /* Color de fondo alternado */
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+
+
+/* Colores para los tipos de datos */
+.celda-asistencias {
+  background-color: #A9D08E !important; /* Verde claro */
+}
+
+.celda-atrasos {
+  background-color: #fbf982 !important; /* Amarillo claro */
+}
+
+.celda-faltas-justificadas {
+  background-color: #2c66cc !important; /* Rojo claro */
+}
+
+.celda-faltas-injustificadas {
+  background-color: #FF9999 !important; /* Rojo suave */
+}
+
+.titulo {
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.subtitulo {
+  text-align: center;
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.info {
+  text-align: center;
+  font-size: 1em;
+  margin-bottom: 0;
+}
+
+
+.logo-img {
+    width: 70px;
+    height: auto; /* Mantiene la proporción original */
+}
+
+.container {
+    justify-content: center; /* Centrar horizontalmente */
+    background-color: #fff; /* Fondo blanco para el contenedor */
+    padding: 20px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para destacar */
+    margin-bottom: 0;
+}
+
+</style>
+</head>
+<body>
+
+   <main>
+    <div class="container">
+        <div class="row">
+          <div class="col-2">
+            <img src="{% static 'img/logoCerit.png' %}" alt="Logo de la Institución" class="logo-img">
+          </div>
+          <div class="col-8">
+            <div class="titulo">Informe de Asistencia</div>
+            <div class="subtitulo">Periodo Academico {{ clase.curso_id.periodoAcademico_id.nombre }}</div>
+          </div>
+          <div class="col-2"></div>
+        </div>
+    
+        <div class="row">
+          <div class="col-6"> 
+            <div class="info"><b>Docente: </b> {{ clase.docente_id.apellido_Paterno }} {{ clase.docente_id.primer_nombre }} </div>
+          </div>
+          <div class="col-6"> 
+            <div class="info"><b>Nivel: </b> {{ clase.asignatura_id.nivel }}  </div>
+          </div>
+         
+        </div>
+    
+        <div class="row">
+          
+          <div class="col-12">
+            <br>
+            <p style="font-size: 1em; margin-bottom: 10px; text-align: center;">
+              La siguiente tabla muestra el detalle de asistencias, atrasos y faltas de los estudiantes de <b>{{ clase.curso_id.nombre }}</b>  en la asignatura de <b>{{ clase.asignatura_id.nombre }}</b> del <b>{{ trimestre.nombre }}</b>.
+          </p>
+          <p style="font-size: 0.9em; margin-bottom: 0; text-align: center;">
+              <b>Leyenda:</b>
+              <span style="background-color: #A9D08E; padding: 2px 5px;">AS: Asistencias</span>
+              <span style="background-color: #fbf982; padding: 2px 5px;">AT: Atrasos</span>
+              <span style="background-color: #2c66cc; padding: 2px 5px; color: white;">FJ: Faltas Justificadas</span>
+              <span style="background-color: #FF9999; padding: 2px 5px;">FI: Faltas Injustificadas</span>
+          </p>
+          
+          </div>
+         
+        </div>
+    
+      </div>
+      
+    <div class="container">
+        <table class="table table-bordered estilo-tablas" >
+            <thead>
+                <tr>
+                    <th >N°</th>
+                    <th  >NÓMINA DE ESTUDIANTES</th>
+                    <th  class="celda-asistencias text-center" >(AS)</th>
+                    <th  class="celda-atrasos text-center" >(AT)</th>
+                    <th  class="celda-faltas-justificadas text-center" >(FJ)</th>
+                    <th  class="celda-faltas-injustificadas text-center">(FI)</th>
+                    <th  class="text-center" >TOTAL (ASISTENCIAS)</th>
+                    <th  class="text-center" >TOTAL (FALTAS)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for matricula in matriculas %}
+                    <tr data-matricula-id="{{ matricula.id }}" data-periodo-division-id="{{ trimestre.id }}" data-clase-id="{{clase.id}}">
+                        <td >{{ forloop.counter }}</td>
+                        <td  class="text-start">{{ matricula.estudiante_id.apellido_Paterno }} {{ matricula.estudiante_id.apellido_Materno }} {{ matricula.estudiante_id.primer_nombre }} {{ matricula.estudiante_id.segundo_nombre }}</td>
+                        <td class="text-center">
+                            {{ matricula.asistencias_count }}
+                            
+                        </td>
+                        <td  class="text-center">
+                                {{ matricula.atrasos_count }}
+                            
+                        </td>
+                        <td  class="text-center">
+                                {{ matricula.faltas_justificadas_count }}
+                            
+                        </td>
+                        <td class="text-center">
+                                {{ matricula.faltas_injustificadas_count }}
+                            
+                        </td>
+                        
+                            <td class="text-center" >{{ matricula.total_asistencias_completas_count }}</td>
+                        <td  class="text-center">{{ matricula.total_faltas_count }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="9" class="text-center">No hay estudiantes matriculados en este curso.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+   </main>
+
+    <footer style="background-color: #f9f9f9; padding: 10px; margin-top: 20px; text-align: center; font-size: 0.9em; color: #555;">
+        <p>© {{ año }} cerit Unidad Educativa. Todos los derechos reservados.</p>
+        <p>Este informe fue generado automáticamente el {{ fecha }}. Por favor, maneje esta información con confidencialidad.</p>
+    </footer>
+    
+
+    
+</body>
+</html>

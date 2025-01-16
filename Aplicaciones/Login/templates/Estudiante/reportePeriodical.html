@@ -1,0 +1,107 @@
+{% load static %}
+<a href="{% url 'reportePeriodicalEstudiante' periodo_id=periodo.id %}" class="btn btn-primary" target="_blank">
+    Descargar PDF
+</a>
+
+<div class="row">
+    <div class="col-1">
+        <img src="{% static 'img/logoCerit.png' %}" alt="Sin imagen" width="85%">
+    </div>
+    <div class="col-11">
+        <div class="text-center">
+            <h1 class="text-center">CERTIFICADO DE PROMOCIÓN</h1>
+            <p class="text-center">Latacunga-Ecuador</p>
+            <p class="text-center">{{ periodo }}</p> <!-- Mostrar el nombre del periodo académico -->
+        </div>
+    </div>
+</div>
+
+<div class="row align-items-center">
+    <div class="container">
+        <p>El "cerit" U. E. de conformidad con lo prescrito en la Ley Orgánica de Educación Intercultural y demás normativas </p>
+        <p> vigentes, certifica que el/la niño/a: {{ estudiante.nombre }} estudiante del {{ curso.nombre }} - {{ curso.nivel }} </p>
+        <p>Grado EGB" Paralelo  "Único"  obtuvo  las  siguientes  calificaciones  durante  el  presente  año  lectivo:</p>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-center">Asignatura</th>
+            {% for trimestre in periodo_divisiones %}
+                <th class="text-center">{{ trimestre.nombre }}</th> <!-- Nombre del trimestre -->
+            {% endfor %}
+            
+            <th class="text-center">Promedio/10</th> <!-- Promedio final de la asignatura -->
+            <th class="text-center">Recuperación</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for asignatura in asignaturas_matriculadas %}
+            <tr>
+                <td>{{ asignatura.nombre }}</td> <!-- Nombre de la asignatura -->
+                {% for promedio in asignatura.promedios_trimestrales %}
+                    <td class="text-center">
+                        {% if promedio.promedioTrimestral %}
+                            {{ promedio.promedioTrimestral }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                {% endfor %}
+                
+                <td class="text-center">
+                    {% if asignatura.promedio_general_asignatura %}
+                        {{ asignatura.promedio_general_asignatura }}
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+                <td class="text-center" >0</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="{{ periodo_divisiones|length|add:1 }}" class="text-center no-data">
+                    No se encontraron promedios trimestrales.
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+
+        <tr>
+            <td  class="text-center ">
+                <strong>PROMEDIO GENERAL:</strong>
+            </td>
+            {% for trimestre in periodo_divisiones %}
+            <td data-trimestre="{{ trimestre.id }}" data-matricula="{{ matricula.id }}"  class="text-center promedio-trimestral-estudiante">
+                
+            </td>
+            {% endfor %}
+            <td class="text-center">
+                {{ promedio_general_todas_asignaturas }}
+            </td>
+            <td class="text-center" >0</td>
+        </tr>
+
+
+    </tfoot>
+
+</table>
+
+<div class="legend">
+    <div class="legend-item">Por lo tanto es promovido/a al siguiente grado , según consta en el libro de calificaciones que reposa en la secretaria del plantel, para certificar suscriben en unidad de acto el Rector y la Secretaria. </div>
+   
+</div>
+
+<div class="signatures">
+    <div>Rectora MSc. Raquel García Palma</div>
+    <div>Docente Secretaria Lic. Jessica Rubio Olivares</div>
+</div>
+<div class="legend">
+    <div class="legent-item">
+        NOTA.- De conformidad al Art. 210.- del Reglamento de la Ley Orgánica de Educación, el estudiante puede asistir al “examen de recuperación o de la mejora del promedio. <br> El examen de recuperación tiene como objetivo dar la oportunidad de mejorar los promedios y se ofrece a cualquier estudiante que hubiere aprobado la asignatura con un promedio inferior a diez (10)”.
+    </div>
+</div>
+<br>
+<hr>

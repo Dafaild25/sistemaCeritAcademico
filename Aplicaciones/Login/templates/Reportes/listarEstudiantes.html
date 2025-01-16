@@ -1,0 +1,63 @@
+
+
+
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <label>Trimestre</label>
+            <select name="cboTrimestreReporte" id="cboTrimestreReportes" class="form-control"></select>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">
+    {% load static %}
+    <br>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-end align-items-start">
+            <i class="fa fa-close fa-2x "  onclick="ocultarListado()"></i>
+        </div>
+        <div class="col-12">
+            <br>
+            <center><h2><strong>Calificaciones Estudiantes</strong></h2></center>
+            <center><h2><strong>Curso: {{ curso.nombre }}</strong></h2></center>
+            
+        </div>
+    </div>    
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>CÓDIGO</th>
+                <th>ESTUDIANTE</th>
+                <th>Promedio 1er Trimestre</th>
+                <th>Promedio 2do Trimestre</th>
+                <th>Promedio 3er Trimestre</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for estudiante in estudiantes %}
+            <tr>
+                <td>{{ estudiante.cedula }}</td>
+                <td>{{ estudiante.apellido_Paterno }} {{ estudiante.apellido_Materno }} {{ estudiante.primer_nombre }} {{ estudiante.segundo_nombre }}</td>
+                <td>
+                    <span onclick="mostrarCalificaciones({{ estudiante.id }}, 1, this)">9,50</span>
+                    <div class="calificaciones"></div>
+                </td>
+                <td>
+                    <span onclick="mostrarCalificaciones({{ estudiante.id }}, 2, this)">9,17</span>
+                    <div class="calificaciones"></div>
+                </td>
+                <td>
+                    <span onclick="mostrarCalificaciones({{ estudiante.id }}, 3, this)">9,70</span>
+                    <div class="calificaciones"></div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>

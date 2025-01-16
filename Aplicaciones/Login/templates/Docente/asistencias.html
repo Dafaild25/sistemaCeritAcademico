@@ -1,0 +1,30 @@
+<div class="container">
+    <br>
+    <div class="row border border-primary">
+        <div class="col-6">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <select name="cboTrimestreAsistencia" id="cboTrimestreAsistencia"  class="form-control">
+                       
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- Información del curso y asignatura -->
+        <div class="col-6">
+            <div class="row align-items-center justify-content-center" style="height: 100%;">
+                <input type="hidden" id="claseAsistencia" value="{{curso_asignatura.id}}">
+                <div class="col-4 text-center">{{asignatura.nombre}}</div>
+                <div class="col-4 text-center">CURSO: {{curso.nombre}}</div>
+                <div class="col-4 text-center">PARALELO: {{curso.paralelo}}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor de asistencias que estará oculto al inicio -->
+    <div class="row g-0" id="contenedor-asistencias" >
+        
+        
+    </div>
+    
+</div>

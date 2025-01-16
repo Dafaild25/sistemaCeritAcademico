@@ -1,0 +1,115 @@
+{% load static %}
+
+<a href="{% url 'reporteTrimestralEstudiante' periodo_id=periodo.id trimestre_id=trimestre.id %}" class="btn btn-primary" target="_blank">
+    Descargar PDF
+</a>
+
+
+<div class="row">
+    <div class="col-1">
+        <img src="{% static 'img/logoCerit.png' %}" alt="Sin imagen" width="85%">    
+    </div>
+    <div class="col-11">
+        <div class="text-center">
+            <h1 class="text-center">cerit UNIDAD EDUCATIVA</h1>
+            <p class="text-center">Latacunga-Ecuador</p>
+            <p class="text-center">{{ periodo }}</p>
+        </div>
+    </div>
+</div>
+<div class="legend ">
+    <div class="legent-item">
+        <p>En concordancia con El Reglamento a la LOEI Art. 209 Num. 2; se presenta el siguiente Informe:</p>
+    </div>
+</div>
+
+<br>
+
+
+<div class="row">
+    <div class="col-3">
+        <p class="text-center small">ESTUDIANTE: {{ estudiante.nombre_completo }}</p>
+    </div>
+    <div class="col-3">
+        <p class="text-center small">CÉDULA:{{ estudiante.cedula }}</p>
+    </div>
+    <div class="col-3">
+        <p class="text-center small">{{ trimestre.nombre }}</p>
+    </div>
+    <div class="col-3">
+        <p class="text-center small">{{ curso.nombre }} {{ curso.nivel }}</p>
+    </div>
+</div>
+
+<table class="table table-bordered tbl-reporteTrimestral">
+    <thead>
+        <tr>
+            <th rowspan="2" class="text-center">Asignatura</th>
+            <th rowspan="2" class="text-center">Promedio Unidad</th>
+            <th  rowspan="2"class="text-center">Examen Trimestral</th>
+            <th rowspan="2" class="text-center">Promedio</th>
+            <th colspan="6"class="text-center">ASISTENCIA</th>
+        </tr>
+        <tr>
+            <th class="text-center">(AS)</th>
+            <th class="text-center">(AT)</th>
+            <th class="text-center">(FJ)</th>
+            <th class="text-center">(FI)</th>
+            <th class="text-center">(TOTAL ASISTENCIAS)</th>
+            <th class="text-center">(TOTAL FALTAS)</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        {% for asignatura in asignaturas_matriculadas %}
+        
+        <tr data-matricula-id ="{{matricula.id}}" data-trimestre-id="{{trimestre.id}}" data-clase-id="{asignatura.id}">
+            <td>{{ asignatura.nombre }}</td>
+            <td>
+                {% if asignatura.promedio_unidad %}
+                    {{ asignatura.promedio_unidad }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if asignatura.examen %}
+                    {{ asignatura.examen }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if asignatura.promedio_trimestral %}
+                    {{ asignatura.promedio_trimestral }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            
+            <td>{{ asignatura.asistencia.total_asistencias }}</td>
+            <td>{{ asignatura.asistencia.total_atrasos }}</td>
+            <td>{{ asignatura.asistencia.total_faltas_justificadas }}</td>
+            <td>{{ asignatura.asistencia.total_faltas_injustificadas }}</td>
+            <td>{{ asignatura.asistencia.total_asistencias_completas }}</td>
+            <td>{{ asignatura.asistencia.total_faltas }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center">No hay asignaturas disponibles.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="legend">
+    <div class="legend-item">Reporte trimestral con sus asistencias   </div>
+</div>
+
+<div class="signatures">
+    <div>Rectora MSc. Raquel García Palma</div>
+        <div>Docente Secretaria Lic. Jessica Rubio Olivares</div>
+</div>
+
+<br>
+<br>

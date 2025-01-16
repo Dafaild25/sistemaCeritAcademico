@@ -1,0 +1,135 @@
+<div class="container">
+    <div class="row">
+        <hr>
+        <div class="col text-end">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearExamenFinalModal">
+                Agregar Nuevos Examenes 
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <h3 class="text-small">EXAMENES FINALES PARA: {{periodo.nombre}}</h3>
+        <input type="hidden" id="periodoExamenFinal" value="{{periodo.id}}">
+        {% if examenes_finales %}
+        <div class="row">
+            {% for examen in examenes_finales %}
+                <div class="col-md-4 mb-3">
+                    <div class="card border-secondary">
+                        <div class="card-body">
+                            <h6 class="card-title ">{{ examen.nombre }}</h6>
+                            <p class="card-text text-small"><strong>Descripcion:</strong> {{ examen.descripcion }}, CON PONDERACION DE {{ examen.ponderacion }}%, TENIENDO UN ESTADO {{examen.estado}} </p>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-center">
+                                <button type="button" onclick="selecionarUnExamenFinal({{examen.id}})" class="btn btn-outline-primary"><span class="fas fa-pencil"></span></button>
+                            </div>
+                            <div class="col-6 text-center">
+                                <button  type="button" onclick="eliminarUnExamenFinal({{examen.id}})" class="btn btn-outline-danger"> <span class="fas fa-trash" ></span></button>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="col-12">
+            <p class="text-muted">No hay exámenes finales para este periodo.</p>
+        </div>
+    {% endif %}
+    </div>
+
+</div>
+
+<!-- modal para editar un examen trimestral -->
+<div class="modal fade" id="modalEditarExamenFinal" tabindex="-1" aria-labelledby="EditarExamenFinalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditarExamenFinalLabel">Editar
+                    Examen Final</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                <form id="editarExamenFinalForm">
+                    <input type="hidden" name="examenFinalId" id="examenFinalId" >
+                    <input type="hidden" name="periodoExamenFinal"id="periodoExamenFinal" value="{{periodo.id}}" >
+                    <div class="mb-3">
+                        <label  class="form-label">Nombre del Examen Final</label>
+                        <input type="text" class="form-control" id="nombreExamenFinal" name="nombreExamenFinal" required>
+                    </div>
+                    <div class="mb-3">
+                        <label  class="form-label">Ponderación (%)</label>
+                        <input type="number" class="form-control" id="ponderadoExamenFinal"  name="ponderadoExamenFinal"  step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label  class="form-label">Descripción : </label>
+                        <input type="text"  class="form-control" id="descripcionExamenFinal"  name="descripcionExamenFinal"   required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select name="estadoExamenFinal" id="estadoExamenFinal" class="form-select" required>
+                            <option value="ACTIVO">ACTIVO</option>
+                            <option value="INACTIVO">INACTIVO</option>
+                        </select>
+                        
+                    </div>
+
+                    <button type="button"  class="btn btn-primary" onclick="editarUnExamenFinal()">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal para crear  -->
+ <!-- modal para crear nuevos Examenes ya que es por cada trimestre de crear  -->
+<div class="modal fade" id="crearExamenFinalModal" tabindex="-1" aria-labelledby="crearExamenFinalModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="ExamenFinalModalLabel">Crear
+                Examenes Finales</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            {% csrf_token %}
+            <form id="crearExamenFinalForm">
+                <div class="mb-3">
+                    <label  class="form-label">Nombre del Examen Final</label>
+                    <input type="text" class="form-control" id="newNombreExamenFinal" name="newNombreExamenFinal" required>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="mb-3">
+                            <label  class="form-label "><span class="text-small">Ponderación (%)</span></label>
+                            <input type="number" class="form-control" id="newPonderadoExamenFinal"  name="newPonderadoExamenFinal"  step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="mb-3">
+                            <label class="form-label text-small"><span class="text-small">Estado:</span></label>
+                                <select name="newEstadoExamenFinal" id="newEstadoExamenFinal" class="form-select" required>
+                                    <option value="ACTIVO">ACTIVO</option>
+                                    <option value="INACTIVO">INACTIVO</option>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label  class="form-label text-small"><span class="text-small">Descripción:</span></label><br>
+                            <textarea type="text"class="form-control"  id="newDescripcionExamenFinal"  name="newDescripcionExamenFinal" ></textarea>
+                        </div>
+                    </div>
+                </div>
+        
+                <button type="button" class="btn btn-primary" onclick="guardarExamenFinal({{periodo.id}})">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>

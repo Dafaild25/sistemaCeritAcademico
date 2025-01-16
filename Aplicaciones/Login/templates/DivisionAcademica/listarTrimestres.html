@@ -1,0 +1,171 @@
+<div class="container">
+    <br><br><br>
+    <div class="row text-center">
+        <div class="col-md-2">
+            <h5 class="text-end-small"><strong> PERIODO:</strong></h5>
+        </div>
+        <div class="col-md-3">
+            <h5 class="text-small">{{ periodo_academico.nombre }}</h5>
+        </div>
+        {% if trimestres %}
+        <div class="col-md-3">
+            <button type="button" onclick="listarTiposEvaluacion({{periodo_academico.id}})" class="btn btn-primary">
+                Tipos de Evaluación
+            </button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" onclick="listarExamenesTrimestrales({{periodo_academico.id}})"  class="btn Examenes btn-secondary">
+                Examenes
+            </button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" onclick="listarUnidadesTrimestrales({{periodo_academico.id}})" class="btn Unidades btn-danger">
+                Unidades
+            </button>
+        </div>
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Crear Trimestres </h2>
+                        <form id="formTrimestre" method="post">
+                            <input type="hidden" id="periodoTri" name="periodoTri" value="{{ periodo_academico.id }}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label">Nombre del Trimestre</label>
+                                <input type="text" class="form-control" id="nombreTri" name="nombreTri" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Fecha de Inicio</label>
+                                <input type="date" class="form-control" id="fechaInicioTri" name="fechaInicioTri"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Fecha de Fin</label>
+                                <input type="date" class="form-control" id="fechaFinTri" name="fechaFinTri" required>
+                            </div>
+
+                            <button type="button" onclick="guardarDatosTrimestre();"
+                                class="btn btn-primary">Crear</button>
+
+                        </form>
+                    </div>
+                    <!-- Aquí se puede agregar la sección para listar divisiones académicas -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h2>Listado</h2>
+            {% if trimestres %}
+            <div class="row">
+                {% for division in trimestres %}
+                <div class="col-md-4 mb-3">
+                    <div class="card" style="width: 16rem;">
+                        <div class="card-body">
+                            <input type="hidden" id="periodoTriEli" value="{{periodo_academico.id}}">
+                            <h6 class="card-title">{{ division.nombre }}</h6>
+                            <p class="card-subtitle mb-2 text-muted">Fecha de Inicio: {{ division.fecha_inicio }}</p>
+                            <p class="card-subtitle mb-2 text-muted">Fecha de Fin: {{ division.fecha_fin }}</p>
+
+                        </div>
+
+                        <div class="row text-center">
+                            
+                            <div class="col-6"> <a href="#" onclick="selecionarUnTrimestre({{division.id}})"
+                                    class="btn btn-outline-primary btn-circle" title="Editar Trimestre">
+                                    <i class="fas fa-pencil"></i>
+                                </a></div>
+                            <div class="col-6"> <a href="#" onclick="eliminarUnTrimestre({{division.id}})"
+                                    class="btn btn-outline-danger btn-circle" title="Eliminar Trimestre">
+                                    <i class="fas fa-trash"></i>
+                                </a></div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info" role="alert">
+                No tiene trimestres. <a href="#" class="alert-link">Agregue uno</a>.
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+</div>
+
+<!-- modal para cambiar el Trimestre -->
+<!-- Modal -->
+<div class="modal fade" id="modalEditarTrimestre" tabindex="-1" aria-labelledby="modalEditarTrimestreLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarTrimestreLabel">Editar Trimestre</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarTrimestre">
+                    <input type="hidden" id="periodoTriId" value="{{periodo_academico.id}}">
+                    <input type="hidden" id="trimestreId">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label><strong>Nombre de Trimestre:</strong></label>
+                            <br>
+                            <input class="form-control" type="text" id="nombreTrimestreActualizado"
+                                name="nombreTrimestreActualizado" required> <br>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label>Fecha de Inicio:</label>
+                            <input class="form-control" type="date" id="fechaTrimestreInicio"
+                                name="fechaTrimestreInicio" required>
+                        </div>
+                        <div class="col-6">
+                            <label>Fecha Final:</label>
+                            <input class="form-control" type="date" id="fechaTrimestreFin" name="fechaTrimestreFin"
+                                required>
+                        </div>
+                    </div>
+                    <br><br><br>
+                    <div class="row text-center">
+
+                        <div class="col-6">
+                            <button type="button" onclick="editarUnTrimestre()" class="btn btn-success">Guardar
+                                Cambios</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                aria-label="Close">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- para que reconozco el boton  de guardar  -->
+{% load static %}
+<script src="{% static 'js/Admin/crudPeriodo.js' %}"></script>
+
+<!-- estilos de los botones -->
+<style>
+    .btn-circle {
+        border-radius: 100px !important;
+    }
+</style>

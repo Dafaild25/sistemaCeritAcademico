@@ -1,0 +1,771 @@
+{% extends 'masterAdmin.html' %}
+{% load static %}
+{% block body %}
+
+
+
+<script src="{% static 'js/Admin/registroDocente.js' %}" defer></script>
+<script src="{% static 'js/Admin/registroEstudiante.js' %}" defer></script>
+<script src="{% static 'js/Admin/registroAdmin.js' %}" defer></script>
+<script src="{% static 'js/Dashboard/dashboard.js' %}" defer></script>
+
+<div class="container mt-5">        
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Tipo de usuario a registrar</h4>
+                </div>
+                <div class="col-md-6">
+                    <!-- Tipo de usuario -->
+
+                    <select name="tipo_usuario" id="tipo_usuario" class="form-control">
+                        <option value="" class="form-control">Seleccione un usuario</option>
+                        <option value="admin" class="form-control">Admin</option>
+                        <option value="docente" class="form-control">Docente</option>
+                        <option value="estudiante" class="form-control">Estudiante</option>
+                    </select><br>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="toastError" class="toast position-absolute top-10 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true" style="z-index: 1055; display: none; top: 30px;">
+    <div class="toast-header" style="background-color:rgb(255, 0, 0); color: white;">
+      <strong class="me-auto">Error</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body" id="toastErrorMessage">
+      <!-- Aquí se mostrará el mensaje de error -->
+    </div>
+</div>
+
+
+
+<div id="toastSuccess" class="toast position-absolute top-10 start-50 translate-middle-x" role="alert" aria-live="assertive" aria-atomic="true" style="z-index: 1055; display: none; top: 30px;">
+    <div class="toast-header bg-success text-white">
+      <strong class="me-auto">Éxito</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body" id="toastSuccessMessage">
+      <!-- Aquí se mostrará el mensaje de éxito -->
+    </div>
+</div>
+  
+
+
+
+
+<!-- ACORDEON INICIO -->
+<div class="container mt-2">
+
+    <!-- Campos para Administrador -->
+    <div class="container" id="formulario_Administrador">
+        <div class="row">
+            <div class="col-12">
+                <form method="post" id="registroAdministrador" class="card shadow p-4 mx-auto" style="max-width: 800px;">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6 ">
+                            <h3 class="text-center mb-4">Registro de Administrador</h3>
+                        </div>
+                        <div class="col-3 text-end">
+                            <button type="button" class="btn btn-success btn-lg" onclick="guardarDatosAdmin()">
+                                <i class="fa fa-save"></i> Guardar
+                            </button>
+                        </div>
+
+                    </div>
+                    
+                    <input type="hidden" id="usuarioAdmin" name="usuarioAdmin" value="admin">
+                    
+                    <!-- Primer Nombre y Segundo Nombre -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="primer_nombre_admin" id="primer_nombre_admin" class="form-control" placeholder="Primer Nombre">
+                                <label for="primer_nombre_admin">Primer Nombre</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="segundo_nombre_admin" id="segundo_nombre_admin" class="form-control" placeholder="Segundo Nombre">
+                                <label for="segundo_nombre_admin">Segundo Nombre</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Apellido Paterno y Apellido Materno -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="apellido_Paterno_admin" id="apellido_Paterno_admin" class="form-control" placeholder="Apellido Paterno">
+                                <label for="apellido_Paterno_admin">Apellido Paterno</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="apellido_Materno_admin" id="apellido_Materno_admin" class="form-control" placeholder="Apellido Materno">
+                                <label for="apellido_Materno_admin">Apellido Materno</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cédula y Dirección -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="cedula_admin" id="cedula_admin" class="form-control" placeholder="Cédula">
+                                <label for="cedula_admin">Cédula</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="direccion_admin" id="direccion_admin" class="form-control" placeholder="Dirección">
+                                <label for="direccion_admin">Dirección</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Teléfono y Correo Electrónico -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="telefono_admin" id="telefono_admin" class="form-control" placeholder="Teléfono">
+                                <label for="telefono_admin">Teléfono</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="email" name="email_admin" id="email_admin" class="form-control" placeholder="Correo Electrónico">
+                                <label for="email_admin">Correo Electrónico</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Campos para Docente -->
+    <div class="container" id="formulario_Docente">
+        <div class="row">
+            <div class="col-12">
+                <form method="post" id="registroDocente" class="card shadow p-4 mx-auto" style="max-width: 800px;">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <h3 class="text-center mb-4">Registro de Docente</h3>
+                        </div>
+                        <div class="col-3 text-end">
+                            <button type="button" class="btn btn-success btn-lg" onclick="guardarDatosDocente()">
+                                <i class="fa fa-save"></i> Guardar
+                            </button>
+                        </div>
+                    </div>
+                
+                    <input type="hidden" id="usuarioDocente" name="usuarioDocente" value="docente">
+                
+                                        
+                    <!-- Primer Nombre y Segundo Nombre -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="primer_nombre_docente" id="primer_nombre_docente" class="form-control" placeholder="Primer Nombre">
+                                <label for="primer_nombre_docente">Primer Nombre</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="segundo_nombre_docente" id="segundo_nombre_docente" class="form-control" placeholder="Segundo Nombre">
+                                <label for="segundo_nombre_docente">Segundo Nombre</label>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Apellido Paterno y Apellido Materno -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="apellido_Paterno_docente" id="apellido_Paterno_docente" class="form-control" placeholder="Apellido Paterno">
+                                <label for="apellido_Paterno_docente">Apellido Paterno</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="apellido_Materno_docente" id="apellido_Materno_docente" class="form-control" placeholder="Apellido Materno">
+                                <label for="apellido_Materno_docente">Apellido Materno</label>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Cedula y Dirección -->
+                    <div class="row mb-3">
+                        <div class="col-md-6 mx-auto">
+                            <div class="form-floating">
+                                <input type="text" name="cedula_docente" id="cedula_docente" class="form-control" placeholder="Cédula">
+                                <label for="cedula_docente">Cédula</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mx-auto">
+                            <div class="form-floating">
+                                <input type="text" name="direccion_docente" id="direccion_docente" class="form-control" placeholder="Dirección">
+                                <label for="direccion_docente">Dirección</label>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Teléfono y Correo Electrónico -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="telefono_docente" id="telefono_docente" class="form-control" placeholder="Teléfono">
+                                <label for="telefono_docente">Teléfono</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="email" name="email_docente" id="email_docente" class="form-control" placeholder="Correo Electrónico">
+                                <label for="email_docente">Correo Electrónico</label>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Especialidad y Estado -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="especialidad_docente" id="especialidad_docente" class="form-control" placeholder="Especialidad">
+                                <label for="especialidad_docente">Especialidad</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select name="estado_docente" id="estado_docente" class="form-control">
+                                    <option value="ACTIVO">Activo</option>
+                                    <option value="INACTIVO">Inactivo</option>
+                                </select>
+                                <label for="estado_docente">Estado</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Campos para Estudiante -->
+    <div class="container" id="formulario_Estudiante">
+        <div class="row">
+            <div class="col-12">
+                <form method="post" id="registroEstudiante" class="card shadow p-4 mx-auto" style="max-width: 800px;">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <h3 class="text-center">Registro de Estudiantes</h3>
+                        </div>
+                        <div class="col-3">
+                            <button type="button" class="btn btn-success" onclick="guardarDatosEstudiante()"><i class="fa fa-save"></i> Registrar</button>
+                        </div>
+                    </div>
+                    <br>
+
+                    
+                        <input type="hidden" id="usuarioEstudiante" name="usuarioEstudiante" value="estudiante">
+                        <div class="row mb-3">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="cedula_estudiante" id="cedula_estudiante"
+                                    class="form-control" placeholder="Cedula">
+                                    <label for="cedula_estudiante">Cedula</label>
+                                </div>
+                                
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="primer_nombre_estudiante" id="primer_nombre_estudiante" 
+                                        class="form-control" placeholder="Primer Nombre">
+                                    <label for="primer_nombre_estudiante">Primer Nombre</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="segundo_nombre_estudiante" id="segundo_nombre_estudiante" 
+                                        class="form-control" placeholder="Segundo Nombre">
+                                    <label for="segundo_nombre_estudiante">Segundo Nombre</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="apellido_Paterno_estudiante" id="apellido_Paterno_estudiante" 
+                                        class="form-control" placeholder="Apellido Paterno">
+                                    <label for="apellido_Paterno_estudiante">Apellido Paterno</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="apellido_Materno_estudiante" id="apellido_Materno_estudiante" 
+                                        class="form-control" placeholder="Apellido Materno">
+                                    <label for="apellido_Materno_estudiante">Apellido Materno</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" name="email_estudiante" id="email_estudiante" 
+                                        class="form-control" placeholder="Correo electrónico">
+                                    <label for="email_estudiante">Correo electrónico</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="telefono_estudiante" id="telefono_estudiante" 
+                                        class="form-control" placeholder="Teléfono">
+                                    <label for="telefono_estudiante">Teléfono</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="date" name="fecha_nacimiento_estudiante" id="fecha_nacimiento_estudiante" 
+                                        class="form-control" placeholder="Fecha de Nacimiento">
+                                    <label for="fecha_nacimiento_estudiante">Fecha de Nacimiento</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select name="estado_estudiante" id="estado_estudiante" class="form-control" placeholder="Estado">
+                                        <option value="ACTIVO">Activo</option>
+                                        <option value="INACTIVO">Inactivo</option>
+                                    </select>
+                                    <label for="estado_estudiante">Estado</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="ciudad_estudiante" id="ciudad_estudiante" 
+                                        class="form-control" placeholder="Ciudad">
+                                    <label for="ciudad_estudiante">Ciudad</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" name="direccion_estudiante" id="direccion_estudiante" 
+                                        class="form-control" placeholder="Dirección">
+                                    <label for="direccion_estudiante">Dirección</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <!-- REGISTRO DE REPRESENTANTES -->
+                        
+                        <div class="accordion" id="accordionRepresentantes">
+                            <!-- REPRESENTANTE 1 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                        Representante 1
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionRepresentantes">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h3 class="text-center">Datos del Representante</h3>
+                                            </div>
+                                        </div>
+                                        <br>
+
+                            
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="cedula_R1" id="cedula_R1" class="form-control" placeholder="Cedula">
+                                                    <label for="cedula_R1">Cédula</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="nombres_R1" id="nombres_R1" class="form-control" placeholder="Nombres">
+                                                    <label for="nombres_R1">Nombres</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="apellido_Paterno_R1" id="apellido_Paterno_R1" 
+                                                        class="form-control" placeholder="Apellido Paterno">
+                                                    <label for="apellido_Paterno_R1">Apellido Paterno</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="apellido_Materno_R1" id="apellido_Materno_R1" 
+                                                        class="form-control" placeholder="Apellido Materno">
+                                                    <label for="apellido_Materno_R1">Apellido Materno</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="email" name="email_R1" id="email_R1" class="form-control" placeholder="Correo electrónico">
+                                                    <label for="email_R1">Correo electrónico</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="celular_R1" id="celular_R1" class="form-control" placeholder="Teléfono">
+                                                    <label for="celular_R1">Teléfono</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <select name="parentesco_R1" id="parentesco_R1" class="form-control" placeholder="Parentesco">
+                                                        <option value="">Seleccione el parentesco</option>
+                                                        <option value="Padre">Padre</option>
+                                                        <option value="Madre">Madre</option>
+                                                    </select>
+                                                    <label for="parentesco_R1">Parentesco</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <select name="estado_R1" id="estado_R1" class="form-control" placeholder="Estado">
+                                                        <option value="ACTIVO">Activo</option>
+                                                        <option value="INACTIVO">Inactivo</option>
+                                                    </select>
+                                                    <label for="estado_R1">Estado</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- REPRESENTANTE 2 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Representante 2
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionRepresentantes">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h3 class="text-center">Datos del Representante</h3>
+                                            </div>
+                                        </div>
+                                        <br>
+
+                                        
+                            
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="cedula_R2" id="cedula_R2" class="form-control" placeholder="Cedula">
+                                                    <label for="cedula_R2">Cédula</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="nombres_R2" id="nombres_R2" class="form-control" placeholder="Nombres">
+                                                    <label for="nombres_R2">Nombres</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="apellido_Paterno_R2" id="apellido_Paterno_R2" 
+                                                        class="form-control" placeholder="Apellido Paterno">
+                                                    <label for="apellido_Paterno_R2">Apellido Paterno</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="apellido_Materno_R2" id="apellido_Materno_R2" 
+                                                        class="form-control" placeholder="Apellido Materno">
+                                                    <label for="apellido_Materno_R2">Apellido Materno</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="email" name="email_R2" id="email_R2" class="form-control" placeholder="Correo electrónico">
+                                                    <label for="email_R2">Correo electrónico</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="celular_R2" id="celular_R2" class="form-control" placeholder="Teléfono">
+                                                    <label for="celular_R2">Teléfono</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <select name="parentesco_R2" id="parentesco_R2" class="form-control" placeholder="Parentesco">
+                                                        <option value="">Seleccione el parentesco</option>
+                                                        <option value="Padre">Padre</option>
+                                                        <option value="Madre">Madre</option>
+                                                    </select>
+                                                    <label for="parentesco_R2">Parentesco</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <select name="estado_R2" id="estado_R2" class="form-control" placeholder="Estado">
+                                                        <option value="ACTIVO">Activo</option>
+                                                        <option value="INACTIVO">Inactivo</option>
+                                                    </select>
+                                                    <label for="estado_R2">Estado</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- REPRESENTANTE 3 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        Representante 3
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionRepresentantes">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h3 class="text-center">Datos del Representante</h3>
+                                            </div>
+                                        </div>
+                                        <br>
+
+                                        
+                            
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="cedula_R3" id="cedula_R3" class="form-control" placeholder="Cedula">
+                                                    <label for="cedula_R3">Cédula</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="nombres_R3" id="nombres_R3" class="form-control" placeholder="Nombres">
+                                                    <label for="nombres_R3">Nombres</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="apellido_Paterno_R3" id="apellido_Paterno_R3" 
+                                                        class="form-control" placeholder="Apellido Paterno">
+                                                    <label for="apellido_Paterno_R3">Apellido Paterno</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="apellido_Materno_R3" id="apellido_Materno_R3" 
+                                                        class="form-control" placeholder="Apellido Materno">
+                                                    <label for="apellido_Materno_R3">Apellido Materno</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="email" name="email_R3" id="email_R3" class="form-control" placeholder="Correo electrónico">
+                                                    <label for="email_R3">Correo electrónico</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" name="celular_R3" id="celular_R3" class="form-control" placeholder="Teléfono">
+                                                    <label for="celular_R3">Teléfono</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <select name="parentesco_R3" id="parentesco_R3" class="form-control" placeholder="Parentesco">
+                                                        <option value="">Seleccione el parentesco</option>
+                                                        <option value="Padre">Padre</option>
+                                                        <option value="Madre">Madre</option>
+                                                    </select>
+                                                    <label for="parentesco_R3">Parentesco</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <select name="estado_R3" id="estado_R3" class="form-control" placeholder="Estado">
+                                                        <option value="ACTIVO">Activo</option>
+                                                        <option value="INACTIVO">Inactivo</option>
+                                                    </select>
+                                                    <label for="estado_R3">Estado</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                                                                               
+                        
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<!-- TARJETAS PARA LISTAR -->
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-6">
+
+            <h4>Listado de usuarios</h4>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-4">
+            <center>
+                <div class="card" style="width: 25rem;" onclick="cargarAdmin()">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <canvas id="graficoAdmin"></canvas>
+                        </li>
+                    </ul>
+                    <div class="card-footer card text-bg-primary mb-3 d-flex align-items-center" onclick="cargarAdmin()">
+                        <div class="row w-100">
+                            <div class="col-6 text-start">
+                                <h6 class="mb-0">ADMINISTRADOR</h6>
+                            </div>
+                            <div class="col-6 text-end">
+                                <img src="{% static 'img/administrador.png' %}" alt="Administrador" width="25%">
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </center>
+        </div>
+        <div class="col-4">
+            <center>
+                <div class="card" style="width: 25rem;" onclick="cargarDocentes()">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <canvas id="graficoDocentes"></canvas>
+                        </li>
+                    </ul>
+                    <div class="card-footer card text-bg-primary mb-3 d-flex align-items-center" onclick="cargarDocentes()">
+                        <div class="row w-100">
+                            <div class="col-6 text-start">
+                                <h6 class="mb-0">DOCENTE</h6>
+                            </div>
+                            <div class="col-6 text-end">
+                                <img src="{% static 'img/docente.png' %}" alt="Docente" width="35%">
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </center>
+        </div>
+        <div class="col-4">
+            <center>
+                <div class="card" style="width: 25rem;" onclick="cargarEstudiantes()">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" >
+                            <canvas id="graficoEstudiantes" ></canvas>
+                            
+                        </li>
+                    </ul>
+                    <div class="card-footer card text-bg-primary mb-3 d-flex align-items-center" onclick="cargarEstudiantes()">
+                        <div class="row w-100">
+                            <div class="col-6 text-start">
+                                <h6 class="mb-0">ESTUDIANTE</h6>
+                            </div>
+                            <div class="col-6 text-end">
+                                <img src="{% static 'img/estudiante.png' %}" alt="Estudiante" width="27%">
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </center>
+        </div>
+    </div>
+
+    <hr>
+    <br>
+
+    <div class="row " id="container_listados">
+        <br><br>
+        <!-- Aquí se insertará las listas -->
+    </div>
+
+</div>
+
+<div id="modalConfirmacion" class="modal fade" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #ffc107; color: #000;">
+          <h5 class="modal-title" id="modalConfirmacionLabel">Confirmación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas eliminar este registro?
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

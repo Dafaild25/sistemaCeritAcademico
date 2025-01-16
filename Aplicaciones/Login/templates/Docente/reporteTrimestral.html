@@ -1,0 +1,75 @@
+
+{% load filtros %}
+{% if matriculas %}
+<div class="table-responsive" id="contenedor-tabla-deslizante">
+    <table class="tabla-contenedora mx-0" id="tbl-reporte">
+        <thead>
+            <tr>
+                <th rowspan="2" class="fixed-column enumerados text-center">N°</th>
+                <th rowspan="2"class="fixed-column nominas text-center">NÓMINA DE ESTUDIANTES DEL {{clase.curso_id.nombre}}</th>
+                {% for tipo in tipos_evaluacion %}
+                    <th colspan="2" class="grade-column tiposEvaluacion notas">
+                        
+                        <span class="aporte-nombre">{{tipo.nombre}}</span><br>
+                        <span class="aporte-ponderacion">{{tipo.ponderacion}} %</span>
+                    </th>
+                    {% empty %}
+                    <th class="grade-column notas">No hay tipos de evaluacion</th>
+                {% endfor %}
+                <th   class="grade-column  aporte-nombre PromedioTrimestralTitulo">
+                    Promedio Trimestral
+                </th>
+
+            </tr>
+            <tr>
+                {% for tipo in tipos_evaluacion %}
+                <th class="grade-column promedio text-center">Prom.</th>
+                <th class="grade-column porcentaje text-center">Equi.</th>
+                {% empty %}
+                <th class="grade-column notas">No hay tipos de evaluacion</th>
+                {% endfor %}
+                <th class="grade-column promedioTrimestral">Prom 
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for matricula in matriculas %}
+            <tr data-matri-id="{{ matricula.id }}" >
+                
+                    <td class=" fixed-column enumerados ">{{ forloop.counter }}</td>
+                    <td class=" fixed-column nominas">{{ matricula.estudiante_id.apellido_Paterno }} {{matricula.estudiante_id.apellido_Materno }} {{ matricula.estudiante_id.primer_nombre }} {{matricula.estudiante_id.segundo_nombre }}
+                
+                
+                </td>
+                
+                {% for tipo in tipos_evaluacion %}
+                    <td class="grade-column subpromedio text-center" data-tipo-id="{{ tipo.id }}" data-matricula-id="{{ matricula.id }}" data-trimestre-id="{{ trimestre.id }}">
+                        <span class="subpromedio-valor">Cargando...</span>
+                    </td>
+                <td class="grade-column porcentaje porcentaje-promedios  text-center"  data-tipo-id="{{ tipo.id }}" data-matricula-id="{{ matricula.id }}" data-trimestre-id="{{ trimestre.id }}">
+                    <!-- Aquí se mostrará el promedio -->
+                        <span class="promedio-valor">Cargando...</span>
+                </td>
+                {% endfor %}
+                <!-- Celda para la suma total de los porcentajes -->
+                <td class="grade-column promediosTotales notas text-center">
+                    {{ promedios_totales|get_item:matricula.id|default:"0.00" }}
+                </td>
+                
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2" class="text-center">No hay alumnos</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div> 
+{% else %}
+<p>No hay alumnos.</p>
+{% endif %}
+
+
+<br>

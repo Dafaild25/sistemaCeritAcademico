@@ -1,0 +1,67 @@
+
+{% load filtros %}
+    <center>
+        <h3>Resumen de Asistencias de <span>{{ clase.curso_id.nombre }}</span> en la Asignatura <span>{{ clase.asignatura_id.nombre }}</span></h3>
+    </center>
+     
+
+     <div class="text-end mb-3">
+       <!-- Enlace para abrir el PDF en una nueva pestaña -->
+        <a href="{% url 'generar_pdf_asistencias' clase.id %}" class="btn btn-primary" target="_blank">
+            Ver PDF
+        </a>
+
+        <!-- Enlace para descargar el PDF -->
+        <a href="{% url 'generar_pdf_asistencias' clase.id %}" class="btn btn-secondary" download="reporte_asistencias.pdf">
+            Descargar PDF
+        </a>
+
+    </div>
+    
+    
+<table id="tablaAsistencias">
+    <thead>
+        <tr>
+            <th class="text-center">N°</th>
+            <th class="text-center">Estudiante</th>
+            {% for trimestre in trimestres %}
+                <th class="text-center" colspan="4">{{ trimestre.nombre }}</th>  <!-- Agrupar las 4 columnas para cada trimestre -->
+            {% endfor %}
+            <th class="text-center">Total Asistencias</th>
+            <th class="text-center">Total Faltas</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            {% for trimestre in trimestres %}
+                <th class="celda-asistencias text-center">AS</th>
+                <th class="celda-atrasos text-center">AT</th>
+                <th class="celda-faltas-justificadas text-center">FJ</th>
+                <th class="celda-faltas-injustificadas text-center">FI</th>
+            {% endfor %}
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for matricula in matriculas %}
+        <tr>
+            <td class="text-center">{{ forloop.counter }}</td>
+            <td class="text-start">{{ matricula.estudiante_id.apellido_Paterno }} {{ matricula.estudiante_id.apellido_Materno }} {{ matricula.estudiante_id.primer_nombre }} {{ matricula.estudiante_id.segundo_nombre }}</td>
+            {% for asistencia in matricula.asistencias_por_trimestre %}
+                <td class="text-center">{{ asistencia.asistencias }}</td>
+                <td class="text-center">{{ asistencia.atrasos }}</td>
+                <td class="text-center">{{ asistencia.faltas_justificadas }}</td>
+                <td class="text-center">{{ asistencia.faltas_injustificadas }}</td>
+            {% endfor %}
+            <td class="text-center">{{ matricula.total_asistencias }}</td>
+            <td class="text-center">{{ matricula.total_faltas }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="12" class="text-center">No hay estudiantes matriculados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    

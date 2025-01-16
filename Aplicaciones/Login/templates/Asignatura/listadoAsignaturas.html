@@ -1,0 +1,120 @@
+<!-- templates/Asignatura/asignaturas_tarjetas.html -->
+
+<div class="container">
+    <div class="scrollable-container">
+        <div class="row">
+            <!-- Tarjeta para Nivel Inicial -->
+            <div id="asignaturas_inicial" class="col-md-4 mb-3">
+                <h5 class="text-center">Nivel Inicial</h5>
+                {% for asignatura in asignaturas_inicial %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ asignatura.nombre }}</h5>
+                            <div class="row">
+                            
+                            <div class="col-md-6">
+                                <p >Estado: {{ asignatura.estado }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p >Descripción: {{ asignatura.descripcion }}</p>
+                            </div>
+                        </div>
+
+                        
+                        <a href="#" type='button' class="btn btn-warning btn-circle mx-1" onclick="obtenerAsignatura({{ asignatura.id }})" title="Editar Docente">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a href="#" type='button' onclick="eliminarAsignatura({{asignatura.id}})" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        
+                   
+                    </div>
+                </div>
+                {% empty %}
+                <p>No hay asignaturas en el nivel Básico.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Tarjeta para Nivel Básico -->
+            <div id="asignaturas_basico" class="col-md-4 mb-3">
+                <h5 class="text-center">Nivel Básico</h5>
+                {% for asignatura in asignaturas_basico %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ asignatura.nombre }}</h5>
+
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                                <p >Estado: {{ asignatura.estado }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p >Descripción: {{ asignatura.descripcion }}</p>
+                            </div>
+                        </div>
+
+                        
+                        <a href="#" class="btn btn-warning btn-circle mx-1" onclick="obtenerAsignatura({{ asignatura.id }})" title="Editar Docente">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a href="#" onclick="eliminarAsignatura({{asignatura.id}})" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        
+                   
+                    </div>
+                </div>
+                {% empty %}
+                <p>No hay asignaturas en el nivel Básico.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Tarjeta para Nivel Bachillerato -->
+            <div id="asignaturas_bachillerato" class="col-md-4 mb-3">
+                <h5 class="text-center">Nivel Bachillerato</h5>
+
+                <ul class="list-group list-group-numbered">
+                    {% for asignatura in asignaturas_bachillerato %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ asignatura.nombre }}</h5>
+                            <div class="row">
+                                
+                                <div class="col-md-6">
+                                    <p >Estado: {{ asignatura.estado }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p >Descripción: {{ asignatura.descripcion }}</p>
+                                </div>
+                            </div>
+                            
+                            <a href="#" class="btn btn-warning btn-circle mx-1" onclick="obtenerAsignatura({{ asignatura.id }})" title="Editar Docente">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="#" onclick="eliminarAsignatura({{asignatura.id}})" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                       
+                        </div>
+
+                    </div>
+                    {% empty %}
+                    <p>No hay asignaturas en el nivel Básico.</p>
+                    {% endfor %}
+                </ul>
+                
+                
+
+
+
+
+
+
+                
+
+                
+            </div>
+        </div>
+    </div>
+</div>

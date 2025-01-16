@@ -1,0 +1,96 @@
+{% extends 'masterAdmin.html' %}
+{% load static %}
+{% block body %}
+<script src="{% static 'plantilla/assets/js/plugin/chart.js/chart.min.js' %}"></script>
+<script src="{% static 'js/Admin/crudVariablesGlobales.js' %}" defer></script>
+<br>
+<br>
+<div class="container">
+    <div class="container">
+        <h3 class="text-center mb-4">Datos Informativos de la Entidad</h3>
+    
+        <form enctype="multipart/form-data">
+            <!-- Información de la Institución -->
+            <div class="row">
+                <!-- Primera columna -->
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <label for="nombreInstitucion" class="col-4 col-form-label">Nombre de la Institución:</label>
+                        <div class="col-8">
+                            <input type="text" id="nombreInstitucion" class="form-control" placeholder="Ej. Unidad Educativa CERIT" disabled>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="direccionInstitucion" class="col-4 col-form-label">Dirección:</label>
+                        <div class="col-8">
+                            <input type="text" id="direccionInstitucion" class="form-control" placeholder="Ej. Calle Principal #123" disabled>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="telefonoInstitucion" class="col-4 col-form-label">Teléfono:</label>
+                        <div class="col-8">
+                            <input type="tel" id="telefonoInstitucion" class="form-control" placeholder="Ej. (04) 123-4567" disabled>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Segunda columna -->
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <label for="emailInstitucion" class="col-4 col-form-label">Correo Electrónico:</label>
+                        <div class="col-8">
+                            <input type="email" id="emailInstitucion" class="form-control" placeholder="Ej. contacto@cerit.edu.ec" disabled>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="rectorInstitucion" class="col-4 col-form-label">Nombre del Rector:</label>
+                        <div class="col-8">
+                            <input type="text" id="rectorInstitucion" class="form-control" placeholder="Ej. Juan Pérez" disabled>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="fundacionInstitucion" class="col-4 col-form-label">Año de Fundación:</label>
+                        <div class="col-8">
+                            <input type="number" id="fundacionInstitucion" class="form-control" placeholder="Ej. 1998" min="1900" max="2099" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Logo y Campos de Visión y Misión -->
+            <div class="row mt-5">
+                <!-- Logo -->
+                <div class="col-md-4 text-center">
+                    <label for="logoInstitucion" class="form-label">Logo de la Institución:</label>
+                    <input type="file" id="logoInstitucion" name="logoInstitucion" class="form-control mb-3" accept="image/*" disabled onchange="mostrarVistaPrevia(event)">
+                    <img id="logoPreview" name="logoPreview" src="" alt="Vista previa del logo" class="img-thumbnail" style="max-height: 150px; display: none;">
+                </div>
+        
+                <!-- Visión -->
+                <div class="col-md-4">
+                    <label for="visionInstitucion" class="form-label">Visión:</label>
+                    <textarea id="visionInstitucion" class="form-control" rows="5" placeholder="Escriba la visión de la institución..." disabled></textarea>
+                </div>
+        
+                <!-- Misión -->
+                <div class="col-md-4">
+                    <label for="misionInstitucion" class="form-label">Misión:</label>
+                    <textarea id="misionInstitucion" class="form-control" rows="5" placeholder="Escriba la misión de la institución..." disabled></textarea>
+                </div>
+            </div>
+        
+            <!-- Botón para Editar/Guardar -->
+            <div class="text-center mt-4">
+                <button id="editSaveButton" class="btn btn-primary">Editar</button>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}

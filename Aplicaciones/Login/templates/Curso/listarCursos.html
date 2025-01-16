@@ -1,0 +1,156 @@
+<div class="container">
+    <br><br><br>
+    <div class="row text-center">
+        <div class="col-md-5">
+            <h5 class="text-end"><strong> PERIODO:</strong></h5>
+        </div>
+        <div class="col-md-5">
+            <h5 class="text-start">{{ periodo_academico.nombre }}</h5>
+        </div>
+        <div class="col-md-2">
+            <h5 class="text-start btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearCursoModal"><i class="fas fa-plus"></i>Agregar</h5>
+        </div>
+
+    </div>
+    <br><br>
+    {% if cursos %}
+    <div class="row">
+        
+        {% for curso in cursos %}
+        <div class="col-md-4">
+            <div class="card border-primary mb-3" style="max-width: 18rem;">
+                <div class="card-header
+                {% if curso.estado == 'ACTIVO' %} bg-success 
+                {% elif curso.estado == 'INACTIVO' %} bg-danger 
+                {% endif %} 
+                text-white border-success">{{curso.estado}}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ curso.nombre }} </h5>
+                    <input type="hidden" id="periodoCursoEliminar" name="periodoCursoEliminar" value="{{periodo_academico.id}}">
+                    <p class="small">Paralelo: {{ curso.paralelo }}</p>
+                    <p class="small"> <strong>DESCRIPCIÓN:</strong> {{ curso.descripcion }}</p>
+                </div>
+                <div class="card-footer bg-transparent border-success">
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <a href="#" onclick="selecionarUnCurso({{curso.id}})" class="btn btn-outline-primary btn-circle" title="Editar Curso"><i class="fas fa-pencil"></i></a>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <a href="#" type="button" onclick="eliminarUnCurso({{curso.id}})" class="btn btn-outline-danger btn-circle" title="Eliminar Curso">
+                                <i class="fas fa-trash"></i> </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <p>No existen cursos para este período académico. Agregue alguno.</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+</div>
+</div>
+
+
+
+<!-- aqui va el modal para agraegar un nuevo curso -->
+
+<!-- Modal -->
+<div class="modal fade" id="crearCursoModal" tabindex="-1" aria-labelledby="crearCursoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="crearCursoModalLabel">Registrar Nuevo Curso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formCrearCurso">
+                    <input type="hidden" name="periodoAcademico_id" id="periodoAcademico_id" value="{{periodo_academico.id}}">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre del Curso:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="paralelo" class="form-label">Paralelo:</label>
+                        <input type="text" class="form-control" id="paralelo" name="paralelo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción:</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="estado" class="form-label">Estado:</label>
+                        <select class="form-control" id="estado" name="estado">
+                            <option value="ACTIVO">Activo</option>
+                            <option value="INACTIVO">Inactivo</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarDatosCurso()">Guardar Curso</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal para Editar Curso -->
+<div class="modal fade" id="modalEditarCurso" tabindex="-1" aria-labelledby="modalEditarCursoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarCursoLabel">Editar Curso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarCurso">
+                    <input type="hidden" id="CursoIdActualizar" name="CursoIdActualizar">
+                    <input type="hidden" id="periodoCursoId" name="periodoCursoId" value="{{periodo_academico.id}}">
+                    
+                    <div class="mb-3">
+                        <label for="nombreCursoActualizar" class="form-label"><strong>Nombre del Curso:</strong></label>
+                        <input type="text" class="form-control" id="nombreCursoActualizar" name="nombreCursoActualizar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="paraleloCursoActualizar" class="form-label"><strong>Paralelo:</strong></label>
+                        <input type="text" class="form-control" id="paraleloCursoActualizar" name="paraleloCursoActualizar" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="descripcionCursoActualizar" class="form-label"><strong>Descripción:</strong></label>
+                        <textarea class="form-control" id="descripcionCursoActualizar" name="descripcionCursoActualizar" rows="3" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="estadoCursoActualizar" class="form-label"><strong>Estado:</strong></label>
+                        <select class="form-control" id="estadoCursoActualizar" name="estadoCursoActualizar" required>
+                            <option value="ACTIVO">Activo</option>
+                            <option value="INACTIVO">Inactivo</option>
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="editarUnCurso()">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- estilos de los botones -->
+<style>
+    .btn-circle {
+        border-radius: 100px !important;
+    }
+</style>

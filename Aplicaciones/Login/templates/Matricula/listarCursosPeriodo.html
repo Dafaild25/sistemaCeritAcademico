@@ -1,0 +1,18 @@
+{% for cursoTemporal in cursos %}
+<div class="col-md-4">
+    <div class="card" style="width: 20rem;">
+        
+        <div class="card-body">
+            <h5 class="card-title">{{cursoTemporal.nombre}}</h5>
+            <p class="card-text">{{cursoTemporal.descripcion}}</p>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a href="#" class="btn " style="background-color: #2173D9; color:white" onclick="listarEstudiantes({{ cursoTemporal.id }})">MATRICULAR</a>
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

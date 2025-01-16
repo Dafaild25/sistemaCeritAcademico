@@ -1,0 +1,167 @@
+{% extends 'masterAdmin.html' %}
+{% load static %}
+{% block body %}
+<link rel="stylesheet" href="{% static 'css/Admin/estilos.css' %}">
+<div class="container my-4">
+    <br>
+    <br>
+    <div class="row" id="tarjetas">
+        <p class="text-center">SELECCIONE LA OPCIÓN QUE DESEA REALIZAR..</p>
+        <div class="col-12 col-sm-4 col-md-4 d-flex justify-content-center align-items-center">
+            <div class="card" style="width: 20rem;">
+                <div class="d-flex justify-content-center py-3"> 
+                    <a class="navbar-brand" href="{% url 'registro' %}">
+                        <img src="{% static 'img/admin/usuario.png' %}" alt="" width="100px" class="img-fluid">
+                    </a>
+                </div>
+                <div class="card-footer mb-3" style="background-color: #8021D9; color: white;">
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="{% url 'registro' %}">
+                                <p class="text-white font-weight-bold text-end">USUARIOS</p>
+                            </a>
+                            
+                        </div>
+                        <div class="col-6 text-end">
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="USUARIOS" data-bs-placement="top">
+                              
+                                <i class="fas fa-info-circle info-icon" id="infoIcon"></i>
+                              
+                                
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4 d-flex justify-content-center align-items-center">
+            <div class="card" style="width: 20rem;">
+                <ul class="list-group list-group-flush">
+                    <div class="d-flex justify-content-center py-3">
+                        <a class="navbar-brand" href="{% url 'vistaPeriodo' %}">
+                            <img src="{% static 'img/admin/periodo.png' %}" alt="" width="100px">
+                        </a>
+                    </div>
+                </ul>
+                <div class="card-footer mb-3" style="background-color: #8021D9; color: white;">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="text-white font-weight-bold text-end">PERIODOS</p>
+                        </div>
+                        <div class="col-6 text-end">
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="PERIODOS" data-bs-placement="top">
+                                <i class="fas fa-info-circle info-icon" id="infoIcon"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="col-12 col-sm-4 col-md-4 d-flex justify-content-center align-items-center">
+            <div class="card" style="width: 20rem;">
+                <ul class="list-group list-group-flush">
+                    <div class="d-flex justify-content-center py-3">
+                        <a class="navbar-brand" href="{% url 'asignatura' %}">
+                            <img src="{% static 'img/admin/asignatura.png' %}" alt="" width="100px">
+                        </a>
+                    </div>
+                </ul>
+                <div class="card-footer mb-3" style="background-color: #8021D9; color: white;">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="text-white font-weight-bold text-end">ASIGNATURAS</p>
+                        </div>
+                        <div class="col-6 text-end">
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="ASIGNATURAS" data-bs-placement="top">
+                                <i class="fas fa-info-circle info-icon" id="infoIcon"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="row" id="tarjetas">
+        <div class="col-12 col-sm-4 col-md-4 d-flex justify-content-center align-items-center">
+            <div class="card" style="width: 20rem;">
+                <ul class="list-group list-group-flush">
+                    <div class="d-flex justify-content-center py-3">
+                        <a class="navbar-brand" href="{% url 'adminCurso' %}">
+                            <img src="{% static 'img/admin/matricula.png' %}" alt="Matrículas" width="100px">
+                        </a>
+                    </div>
+                </ul>
+                <div class="card-footer mb-3" style="background-color: #8021D9; color: white;">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="text-white font-weight-bold text-end">MATRÍCULAS</p>
+                        </div>
+                        <div class="col-6 text-end">
+                            <div class="dropdown">
+                                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="MATRÍCULAS" data-bs-placement="top">
+                                    <i class="fas fa-info-circle info-icon" id="infoIcon"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+        
+        <div class="col-12 col-sm-4 col-md-4 d-flex justify-content-center align-items-center">
+            <div class="card" style="width: 20rem;">
+                <ul class="list-group list-group-flush">
+                    <div class="d-flex justify-content-center py-3">
+                        <a class="navbar-brand" href="{% url 'reportes' %}">
+                            <img src="{% static 'img/admin/notas.png' %}" alt="Reportes" width="100px">
+                        </a>
+                    </div>
+                </ul>
+                <div class="card-footer mb-3" style="background-color: #8021D9; color: white;">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="text-white font-weight-bold text-end">NOTAS</p>
+                        </div>
+                        <div class="col-6 text-end">
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="REPORTES" data-bs-placement="top">
+                                <i class="fas fa-info-circle info-icon" id="infoIcon"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-sm-4 col-md-4 d-flex justify-content-center align-items-center">
+            <div class="card" style="width: 20rem;">
+                <ul class="list-group list-group-flush">
+                    <div class="d-flex justify-content-center py-3">
+                        <a class="navbar-brand" href="{% url 'vistaVariablesGlobales' %}">
+                            <img src="{% static 'img/admin/escuela.png' %}" alt="Ponderados" width="100px">
+                        </a>
+                    </div>
+                </ul>
+                <div class="card-footer mb-3" style="background-color: #8021D9; color: white;">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="text-white font-weight-bold text-end">GENERAL</p>
+                        </div>
+                        <div class="col-6 text-end">
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="VARIABLES" data-bs-placement="top">
+                                <i class="fas fa-info-circle info-icon" id="infoIcon"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+{% endblock %}

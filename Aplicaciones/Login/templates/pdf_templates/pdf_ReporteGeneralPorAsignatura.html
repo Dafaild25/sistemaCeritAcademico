@@ -1,0 +1,251 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REPORTE-{{periodo.nombre}}</title>
+</head>
+<body>
+
+    <style>
+        /* Estilos básicos para el PDF */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            margin: 0;
+            padding: 0;
+        }
+    
+        .text-center {
+            text-align: center;
+        }
+    
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+    
+        .table th, .table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+    
+    
+        .legend {
+            margin-top: 20px;
+        }
+    
+        .legend-item {
+            margin-bottom: 5px;
+        }
+    
+        .signatures {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+    
+        .no-data {
+            text-align: center;
+            font-style: italic;
+        }
+    
+        .container {
+            padding: 10px;
+        }
+    
+        /* Ajuste para que el logo quede a la izquierda y el encabezado centrado */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    
+        .logo {
+        
+            max-width: 80px; /* Limita el tamaño máximo del logo */
+            width: 70px; /* Tamaño inicial del logo */
+        }
+    
+        .encabezado {
+            flex: 1; 
+            text-align: center;
+            margin-right: 50px;
+        }
+    
+        .header img {
+            width: 100%; /* Hace que el logo ocupe el 100% del tamaño del contenedor */
+            height: auto; /* Mantiene la relación de aspecto del logo */
+        }
+    
+        .header h1 {
+            font-size: 20pt;
+            margin: 0;
+        }
+    
+        .header p {
+            margin: 0;
+        }
+    
+        /* Ajuste de la página */
+        @page {
+            size: A4 landscape;
+            margin: 20px; /* Puedes ajustarlo según necesites */
+        }
+    
+        /* Estilos para la leyenda */
+        .legend {
+            margin-top: 20px;
+        }
+    
+        .legend-item {
+            margin-bottom: 5px;
+        }
+    
+        /* Firma */
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+    
+        .signatures div {
+            width: 45%;
+            text-align: center;
+        }
+    
+        .datos_estudiante {
+        display: flex; /* Usamos flexbox para crear un layout de columnas */
+        justify-content: space-between; /* Asegura que las columnas estén distribuidas con el máximo espacio posible entre ellas */
+        align-items: center; /* Centra los elementos verticalmente dentro de cada columna */
+        text-align: center; /* Centra el texto en cada columna */
+    }
+    
+        .datos_estudiante > div {
+            flex: 1; /* Hace que cada div ocupe el mismo espacio disponible */
+            padding: 5px; /* Espaciado entre los elementos */
+            font-size: 18px;
+        }
+    
+    </style>
+
+    
+
+<div class="container">
+    <!-- Cabecera: Logo y título en la misma línea -->
+    <div class="header">
+        <div class="logo">
+            <img src="{% static 'img/logoCerit.png' %}" alt="Logo Cerit">
+        </div>
+        <div class="encabezado">
+            <h1>CERTIFICADO DE PROMOCIÓN</h1>
+            <p>Latacunga - Ecuador</p>
+            <p>{{ periodo.nombre }}</p> <!-- Nombre del periodo académico -->
+        </div>
+    </div>
+
+    <!-- Información del estudiante -->
+    <div class="legend ">
+        <div class="legent-item">
+            <p>El "cerit" U. E. de conformidad con lo prescrito en la Ley Orgánica de Educación Intercultural y demás normativas </p>
+            <p> vigentes, certifica que el/la niño/a: {{ estudiante.nombre }} estudiante del {{ curso.nombre }} - {{ curso.nivel }} </p>
+            <p>Grado EGB" Paralelo  "Único"  obtuvo  las  siguientes  calificaciones  durante  el  presente  año  lectivo:</p>
+        </div>
+    </div>
+
+
+        <!-- <div id="nombre">
+            <h6 class="text-center">ESTUDIANTE: {{ estudiante.nombre }}</h6>
+        </div>
+        <div id="cedula">
+            <h6 class="text-center">CÉDULA: {{ estudiante.cedula }}</h6>
+        </div>
+        <div id="curso">
+            <h6 class="text-center">{{ curso.nombre }} - {{ curso.nivel }}</h6>
+        </div> -->
+    </div>
+
+    <!-- Tabla de calificaciones -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center">ASIGNATURAS</th>
+                {% for trimestre in periodo_divisiones %}
+                    <th class="text-center">{{ trimestre.nombre }}</th> <!-- Nombre del trimestre -->
+                {% endfor %}
+                <th class="text-center">Promedio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asignatura in asignaturas_matriculadas %}
+                <tr>
+                    <td>{{ asignatura.nombre }}</td>
+                    {% for promedio in asignatura.promedios_trimestrales %}
+                        <td class="text-center">
+                            {% if promedio.promedioTrimestral %}
+                                {{ promedio.promedioTrimestral }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                    <td class="text-center">
+                        {% if asignatura.promedio_general_asignatura %}
+                            {{ asignatura.promedio_general_asignatura }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="{{ periodo_divisiones|length|add:1 }}" class="text-center no-data">
+                        No se encontraron promedios trimestrales.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="text-center">
+                    <strong>PROMEDIO GENERAL:</strong>
+                </td>
+                {% load calculos %}
+                {% for trimestre in periodo_divisiones %}
+                    <td class="text-center promedio-trimestral-estudiante">
+                        {{ matricula.id|calcular_promedio:trimestre.id }}
+                    </td>
+                {% endfor %}
+                <td class="text-center">
+                    {{ promedio_general_todas_asignaturas }}
+                </td>
+            </tr>
+    </table>
+
+    <!-- Leyenda de calificaciones -->
+    <div class="legend">
+        <div class="legend-item">Por lo tanto es promovido/a al siguiente grado , según consta en el libro de calificaciones que reposa en la secretaria del plantel, para certificar suscriben en unidad de acto el Rector y la Secretaria. </div>
+    </div>
+
+    <!-- Firmas -->
+    <div class="signatures">
+        <div>Rectora MSc. Raquel García Palma</div>
+        <div>Docente Secretaria Lic. Jessica Rubio Olivares</div>
+    </div>
+    <br>
+    <div class="legend">
+        <div class="legent-item">
+            NOTA.- De conformidad al Art. 210.- del Reglamento de la Ley Orgánica de Educación, el estudiante puede asistir al “examen de recuperación o de la mejora del promedio. <br> El examen de recuperación tiene como objetivo dar la oportunidad de mejorar los promedios y se ofrece a cualquier estudiante que hubiere aprobado la asignatura con un promedio inferior a diez (10)”.
+        </div>
+    </div>
+    <hr>
+</div>
+
+   
+</body>
+</html>

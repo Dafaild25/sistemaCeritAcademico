@@ -1,0 +1,44 @@
+<div class="container">
+    {% if cursos_con_asignaturas %}
+    <div class="row">
+        {% for curso, asignaturas in cursos_con_asignaturas.items %}
+        <div class="col-md-4">
+            <div class="card mb-3 border border-secondary" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ curso.nombre }}</h5>
+                    <ul class="list-group">
+                        {% for asignatura_data in asignaturas %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center border border-primary">
+                                <span class="small">{{ asignatura_data.asignatura.nombre }}</span>
+                                <div>
+                                    <!-- Icono para "Estrellas" -->
+                                    <a href="#" id="periodoTrabajo" class="btn btn-sm btn-warning" style="margin: 0; padding: 0 5px;" title="CALIFICACIONES" 
+                                       data-periodoTrabajo="{{ periodo_academico.id }}" onclick="vistaTrabajoClase({{ asignatura_data.curso_asignatura_id }})">
+                                        <i class="fas fa-star"></i>
+                                    </a>
+
+                                    <!-- Icono para "Lectura" -->
+                                    <a href="#" id="periodoAsistencia" class="btn btn-sm btn-warning" style="margin: 0; padding: 0 5px;"  title="ASISTENCIAS" data-periodoAsistencia="{{ periodo_academico.id }}" onclick="vistaAsitencias({{ asignatura_data.curso_asignatura_id }})" >
+                                        <i class="fas fa-book-reader"></i>
+                                    </a>
+
+                                    <!-- Icono para "Archivos" -->
+                                    <a href="#"  id="periodoReporte" class="btn btn-sm btn-warning" style="margin: 0; padding: 0 5px;" title="REPORTES" 
+                                    onclick="cargarReporte({{ asignatura_data.curso_asignatura_id }})">
+                                        <i class="fas fa-file-archive"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-warning" role="alert">
+        No tienes ningún curso asignado con materias en este período académico.
+    </div>
+    {% endif %}
+</div>

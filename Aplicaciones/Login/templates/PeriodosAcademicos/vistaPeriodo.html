@@ -1,0 +1,147 @@
+{% extends 'masterAdmin.html' %}
+{% load static %}
+{% block body %}
+<script src="{% static 'js/Admin/crudPeriodo.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/AreaTrabajo/periodo.css' %}">
+<br>
+<div class="container">
+
+    <div class="row">
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+            <!-- copia desde aqui -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseOne"style="background-color: #8021D9; color: white;">
+                        <h6>Periodos Academicos</h6>
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <!-- para crear nuevos periodos -->
+                        <div class="row align-items-center mb-4">
+                            <!-- Información adicional -->
+                            <div class="col-8">
+                                <h5 class="mb-0">
+                                    Total de períodos: <strong>{{ periodos|length }}</strong>
+                                </h5>
+                            </div>
+                        
+                            <!-- Botón para agregar períodos -->
+                            <div class="col-4 text-end">
+                                <a href="#" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#crearPeriodoModal">
+                                    Agregar Período
+                                </a>
+                            </div>
+                        </div>
+                        <!-- aqui va lo que quieran -->
+                        <div class="container mt-4">
+                            <div class="row contenido" id="contenedor_periodos">
+                                <!-- aqui debe ir el for -->
+
+                            </div>
+                        </div>
+                        <!-- termina el contenido -->
+                    </div>
+                </div>
+            </div>
+            <!-- aqui se acaba el primer acordeon -->
+        </div>
+    </div>
+</div>
+
+<div class="container " id="contenedor-trabajo">
+   
+    <!-- Contenido aquí -->
+</div>
+<div class="container " id="contenedor-tipoEvaluacion">
+    
+    <!-- Contenido aquí -->
+</div>
+
+<!-- modal para crear un nuevo periodo -->
+
+<div class="modal fade" id="crearPeriodoModal" tabindex="-1" aria-labelledby="crearPeriodoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="crearPeriodoModalLabel">Crear Periodo Académico</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="crearPeriodoForm">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label  class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombrePeriodo" name="nombrePeriodo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label  class="form-label">Decimas para este Periodo: </label>
+                        <input type="number" class="form-control" id="decimasPeriodo" name="decimasPeriodo"  required>
+                    </div>
+                    <div class="mb-3">
+                        <label  class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="2" required></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <label  class="form-label">Fecha de Inicio</label>
+                                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
+                            </div>
+                            
+                           
+                        </div>
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <label  class="form-label">Fecha de Fin</label>
+                                <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <label for="estado" class="form-label">Estado</label>
+                                <select class="form-select" id="estado" name="estado" required>
+                                    <option value="ACTIVO" selected>Activo</option>
+                                    <option value="INACTIVO">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="guardarDatosPeriodo()" class="btn btn-primary">Crear</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal para ver los datos del usuario -->
+<div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="adminModalLabel">Perfil del Administrador</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Cedula:</strong> {{ admin.cedula }}</p>
+                <p><strong>Nombre:</strong> {{ admin.primer_nombre }} {{ admin.segundo_nombre }}</p>
+                <p><strong>Apellido Paterno:</strong> {{ admin.apellido_Paterno }}</p>
+                <p><strong>Apellido Materno:</strong> {{ admin.apellido_Materno }}</p>
+                <p><strong>Teléfono:</strong> {{ admin.telefono }}</p>
+                <p><strong>Email:</strong> {{ admin.email }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,265 @@
+
+<div class="container">
+
+   
+    <div class="row border rounded p-3" style="background-color: #f5f5dc; margin-top: 20px;">
+        <!-- Título de la sección -->
+        <div class="col-12 mb-3">
+            <h4 class="text-center ">GESTIÓN DE APORTES "{{ trimestre.nombre }} - {{unidad.nombre}}"</h4>
+        </div>
+    
+        <!-- Tipos de evaluación -->
+        <div class="col-12 col-md-8">
+            <p><strong class="text-small">TIPOS DE EVALUACIÓN PARA LA ASIGNATURA DE "{{clase.asignatura_id.nombre}}"</strong></p>
+            
+            <div class="row">
+                {% for tipo in tipos_evaluacion %}
+                    <div class="col-12 col-sm-6 col-md-4 mb-3 d-flex align-items-center">
+                        <!-- Barra de color -->
+                        <div style="width: 10px; height: 20px; background-color: {{ tipo.color }}; margin-right: 8px;"></div>
+                        <!-- Nombre del tipo -->
+                        <span>{{ tipo.nombre }}</span>
+                    </div>
+                {% empty %}
+                    <div class="col-12">
+                        <p>No hay tipos de evaluación para este trimestre.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    
+        <!-- Botón para agregar un aporte -->
+        <div class="col-12 col-md-4 text-center d-flex align-items-center justify-content-center mb-3">
+            <button class="btn btn-outline-primary btn-lg" onclick="abrirModalYcargarTiposConUnidad({{ trimestre.id }}, {{ unidad.id }})">
+                <i class="fas fa-plus-circle"></i> Agregar Aporte
+            </button>
+        </div>
+    </div>
+
+{% load filtros %}
+    
+    
+    <!-- Tabla de Estudiantes -->
+    <div class="container mx-0"  id="cuaderno-notas">
+        <br>
+        <div id="datatable-search-container"></div>
+        <!-- aqui tabla dos  -->
+        
+        {% if matriculas %}
+        <div class="table-responsive" id="contenedor-tabla-deslizante">
+            <table class="tabla-contenedora mx-0" id="tbl-aportes-unidad">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="fixed-column enumerados text-center">N°</th>
+                        <th rowspan="2"class="fixed-column nominas text-center">NÓMINA DE ESTUDIANTES DEL {{clase.curso_id.nombre}}</th>
+                        {% for aporte in aportes %}
+                        <th class="grade-column text-center">
+                            <div class="aporte-container"  title="{{ aporte.nombre }}" data-aporte-id="{{ aporte.id }}">
+                                <!-- Franja superior con el color -->
+                                <div class="franja-superior" style="background-color: {{ aporte.tipo_id.color }};"></div>
+                                
+                                <!-- Contenido del aporte -->
+                                <span class="aporte-nombre">{{ aporte.nombre }}</span><br>
+                                <span class="aporte-fecha">{{ aporte.fecha|date:"l/d/m/Y" }}</span>
+                            </div>
+                        </th>
+                        
+                        {% empty %}
+                        <th class="grade-column text-center ">Aportes</th>
+                        {% endfor %}
+                
+
+                    </tr>
+                    <tr>
+
+                        {% for aporte in aportes %}
+                        <th class="grade-column text-center">
+
+                            <div class="btn-group text-center">
+                                <button class="btn-calificar" data-aporte-id="{{aporte.id}}" data-trimestre-id="{{ trimestre.id }}" data-clase-id="{{ clase.id }}" data-curso-id="{{curso.id}}"><i class="fas fa-file" title="Agregar Calificaciones"></i> </button>
+                                <button class="btn-edit" data-aporte-id="{{aporte.id}}" data-trimestre-id="{{trimestre.id}}"
+                                    onclick="selecionarUnAporte(this.dataset.aporteId, this.dataset.trimestreId)"
+                                    title="Editar aporte"><i class="fas fa-pen"></i></button>
+                                <button class="btn-delete" data-aporte-id="{{aporte.id}}"
+                                    data-unidad-eliminar-id="{{unidad.id}}" data-clase-eliminar-id="{{clase.id}}"
+                                    onclick="eliminarAporte(this)" title="Eliminar Aporte"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </th>
+                        {% empty %}
+                        <th class="grade-column  text-center">Ningun Aporte</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for matricula in matriculas %}
+                    <tr data-matri-id="{{ matricula.id }}" >
+                        
+                            <td class=" fixed-column enumerados ">{{ forloop.counter }}</td>
+                            <td class=" fixed-column nominas">{{ matricula.estudiante_id.apellido_Paterno }} {{matricula.estudiante_id.apellido_Materno }} {{ matricula.estudiante_id.primer_nombre }} {{matricula.estudiante_id.segundo_nombre }}
+                        
+                        
+                        </td>
+                        {% for aporte in aportes %}
+                        <td class="grade-column celda-limpia text-center">
+                            <!-- Campo editable para la calificación -->
+                            <div class="observaciones">
+                                <input type="text" step="0.01"
+                                    class="nota-input text-center"
+                                    id="calificacion-{{ matricula.id }}-{{ aporte.id }}"
+                                    data-matricula-id="{{ matricula.id }}"
+                                    data-aporte-id="{{ aporte.id }}"
+                                    data-calificacion-id="{% for calificacion in calificaciones_list %}{% if calificacion.matricula_id == matricula.id and calificacion.aporte_id == aporte.id %}{{ calificacion.id }}{% endif %}{% endfor %}"
+                                    value="{% for calificacion in calificaciones_list %}{% if calificacion.matricula_id == matricula.id and calificacion.aporte_id == aporte.id %}{{ calificacion.nota }}{% endif %}{% endfor %}"
+                                    disabled>
+                                    
+                    
+                                <span class="input-group-text">
+                                    <i class="fas fa-eye" data-bs-toggle="modal" data-bs-target="#observacionModal"
+                                        data-observacion-id="{% for calificacion in calificaciones_list %}{% if calificacion.matricula_id == matricula.id and calificacion.aporte_id == aporte.id %}{{ calificacion.id }}{% endif %}{% endfor %}"
+                                        onclick="mostrarObservacion(this)"
+                                        title="{% for calificacion in calificaciones_list %}{% if calificacion.matricula_id == matricula.id and calificacion.aporte_id == aporte.id %}{{ calificacion.id }}{% else %}No disponible{% endif %}{% endfor %}"></i>
+                                </span>
+                            </div>
+                        </td>
+                        {% empty %}
+                        <td class="grade-column notas text-center">0</td>
+                        {% endfor %}
+                        
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2" class="text-center">No hay alumnos</td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div> 
+        {% else %}
+        <p>No hay alumnos.</p>
+        {% endif %}
+
+
+        <br>
+
+        <hr>
+        <br>
+
+    </div>
+</div>
+
+
+<!-- modal para agregar aportes -->
+<div class="modal fade" id="crearAporteModal" tabindex="-1" aria-labelledby="crearAporteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="crearAporteModalLabel">Crear Nuevo Aporte</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="crearAporteForm" method="post">
+                    {% csrf_token %}
+                    
+                    <!-- Nombre del Aporte -->
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre del Aporte</label>
+                        <input type="text" class="form-control" id="nombreAporte" name="nombreAporte" required>
+                    </div>
+
+                    <!-- Curso Asignatura (Puede ser un campo oculto si ya está definido) -->
+                    <input type="hidden" id="cursoAsignatura_id" name="cursoAsignatura_id" value="{{ clase.id }}">
+                    <input type="hidden" id="unidadAporte_id" name="unidadAporte_id" value="{{unidad.id}}">
+
+                    <!-- Fecha del Aporte -->
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fechaAporte" name="fechaAporte" required>
+                    </div>
+
+                    <!-- Tipo de Evaluación -->
+                    <div class="mb-3">
+                        <label for="tipo_id" class="form-label">Tipo de Evaluación</label>
+                        <select class="form-select" id="cboAporteTrimestral" name="cboAporteTrimestral" required>
+
+                        </select>
+                    </div>
+
+                    <!-- Botones del Modal -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary"
+                            onclick="guardarDatosAportePorUnidad()">Guardar Aporte</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal para editar aportes -->
+<div class="modal fade" id="modalAporte" tabindex="-1" aria-labelledby="modalAporteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAporteLabel">Editar Aporte</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarAporte">
+                    <input type="hidden" id="aporteEditar_idUnidad" name="aporteEditar_idUnidad"
+                        value="{{unidad.id}}">
+                    
+                    <input type="hidden" id="aporteEditar_idClase" name="aporteEditar_idClase" value="{{clase.id}}">
+                    <input type="hidden"  id="posicionScroll" value="">
+                    <div class="mb-3">
+                        <label for="modalNombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreAporteActualizar"
+                            name="nombreAporteActualizar">
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalFecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fechaActualizar" name="fechaActualizar">
+                    </div>
+                    <div class="mb-3">
+                        <label for="selectTipoEvaluacion" class="form-label">Tipo de Evaluación</label>
+                        <select class="form-control" id="cboTipoActualizar" name="cboTipoActualizar"></select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick=" guardarAporteUnidadEditado()">Guardar
+                    Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal  para agregar observaciones  -->
+
+<!-- Modal -->
+<div class="modal fade" id="observacionModal" tabindex="-1" aria-labelledby="observacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="observacionModalLabel">Observaciones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form  id="observacionForm">
+                    <input type="hidden" id="observacionEditar" name="observacionEditar"> 
+                    <textarea  class="form-control" name="observacionesTexto" id="observacionesTexto"></textarea>
+                </form>
+            </div>
+            <div class="modal-footer">
+                
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <!-- Si necesitas un botón para guardar cambios -->
+                <button type="button" class="btn btn-primary" id="guardarObservacionBtn" onclick="guardarObservacion()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

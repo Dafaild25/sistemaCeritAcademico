@@ -1,0 +1,111 @@
+<br><br><br>
+<div class="container">
+    <div class="row"> 
+        <div class="calendar-section">
+            <hr>
+            <h4>CALENDARIO</h4>
+            <div class="calendar">
+                <div class="month">
+                    <span class="prev" style="cursor: pointer;" onclick="prevMonth()">&#10094;</span>
+                    <span id="monthYear" class="month-year"></span>
+                    <span class="next" style="cursor: pointer;" onclick="nextMonth()">&#10095;</span>
+                </div>
+                <table class="calendario">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Lunes</th>
+                            <th class="text-center">Martes</th>
+                            <th class="text-center">Miércoles</th>
+                            <th class="text-center">Jueves</th>
+                            <th class="text-center">Viernes</th>
+                            <th class="text-center">Sábado</th>
+                            <th class="text-center">Domingo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendarDays"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <!-- Calendario -->
+        <div class="col-md-12">
+            <center>
+                <h4>Asistencias en el curso: {{ curso.nombre }} en el {{ trimestre.nombre }} </h4>
+            </center>
+            
+            <div class="text-end mb-3">
+                <!-- Enlace para abrir el PDF en una nueva pestaña -->
+                 <a href="{% url 'generar_pdf_asistencias_trimestre' clase.id trimestre.id %}" class="btn btn-primary" target="_blank">
+                     Ver PDF
+                 </a>
+         
+                 <!-- Enlace para descargar el PDF -->
+                 <a href="{% url 'generar_pdf_asistencias_trimestre' clase.id trimestre.id %}" class="btn btn-secondary" download="reporte_asistencias.pdf">
+                     Descargar PDF
+                 </a>
+         
+            </div>
+
+            <form id="asistencia-form">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <table class="table table-bordered estilo-tablas" id="tbl-asistencia">
+                    <thead>
+                        <tr>
+                            <th width="10px">N°</th>
+                            <th width="480px" >NÓMINA DE ESTUDIANTES</th>
+                            <th width="50px" class="asistencia-col" style="display: none;" id="btn-asis" ></th>
+                            <th width="5px" class="celda-asistencias text-center" >(AS)</th>
+                            <th width="5px" class="celda-atrasos text-center" >(AT)</th>
+                            <th width="5px" class="celda-faltas-justificadas text-center" >(FJ)</th>
+                            <th width="5px" class="celda-faltas-injustificadas text-center">(FI)</th>
+                            <th width="5px"  >TOTAL (ASISTENCIAS)</th>
+                            <th width="5px"  >TOTAL (FALTAS)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for matricula in matriculas %}
+                            <tr data-matricula-id="{{ matricula.id }}" data-periodo-division-id="{{ trimestre.id }}" data-clase-id="{{clase.id}}">
+                                <td width="10px">{{ forloop.counter }}</td>
+                                <td width="500px" class="text-start">{{ matricula.estudiante_id.apellido_Paterno }} {{ matricula.estudiante_id.apellido_Materno }} {{ matricula.estudiante_id.primer_nombre }} {{ matricula.estudiante_id.segundo_nombre }}</td>
+                                <td width="120px" class="asistencia-col" style="display: none;" data-matricula-id="{{ matricula.id }}" data-periodo-division-id="{{ trimestre.id }}" data-clase-id="{{clase.id}}" >
+                                    <!-- Verificación visual -->
+                                    <span>{{ matricula.id }} - {{ trimestre.id }} - {{ clase.id }}</span>
+                                </td>
+                                <td width="5px" class="categoria">
+                                    <button type="button" class="btn btn-outline-primary btn-sm ver-categoria" onclick=" CargarCalendarioDias('{{ matricula.id }}', '{{ trimestre.id }}', 'ASISTENCIA')" >
+                                        <i class="fas fa-eye"></i> {{ matricula.asistencias_count }}
+                                    </button>
+                                </td>
+                                <td width="5px" class="categoria">
+                                    <button type="button" class="btn btn-outline-primary btn-sm ver-categoria" onclick=" CargarCalendarioDias('{{ matricula.id }}', '{{ trimestre.id }}', 'ATRASO')">
+                                        <i class="fas fa-eye"></i> {{ matricula.atrasos_count }}
+                                    </button>
+                                </td>
+                                <td width="5px" class="categoria">
+                                    <button type="button" class="btn btn-outline-primary btn-sm ver-categoria" onclick=" CargarCalendarioDias('{{ matricula.id }}', '{{ trimestre.id }}', 'FALTA JUSTIFICADA')">
+                                        <i class="fas fa-eye"></i> {{ matricula.faltas_justificadas_count }}
+                                    </button>
+                                </td>
+                                <td width="5px" class="categoria">
+                                    <button type="button" class="btn btn-outline-primary btn-sm ver-categoria" onclick=" CargarCalendarioDias('{{ matricula.id }}', '{{ trimestre.id }}', 'FALTA INJUSTIFICADA')">
+                                        <i class="fas fa-eye"></i> {{ matricula.faltas_injustificadas_count }}
+                                    </button>
+                                </td>
+                                
+                                 <td width="5px" >{{ matricula.total_asistencias_completas_count }}</td>
+                                <td width="5px" >{{ matricula.total_faltas_count }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="9" class="text-center">No hay estudiantes matriculados en este curso.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        
+    </div>
+</div>

@@ -1,0 +1,33 @@
+{% extends 'masterRepresentante.html' %}
+{% load static %}
+{% block body %}
+<script src="{% static 'plantilla/assets/js/plugin/chart.js/chart.min.js' %}"></script>
+<script src="{% static 'js/EstudianteReporte/Trimestral.js' %}" defer></script>
+
+<div class="container">
+    <div class="row">
+        <hr>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-center">Periodo Académico</h4>
+                </div>
+                <div class="col-md-3">
+                    {% comment %} aqui debo cambiar por otro id {% endcomment %}
+                    <select id="cboPeriodoEstudiante" class='form-control '></select>
+                </div>
+                <div class="col-md-3">
+                    {% comment %} aqui debo cambiar por otro id {% endcomment %}
+                    <select id="cboTrimestreEstudiante" class='form-control '></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container" id="contenedor_reporte_trimestral">
+
+    </div>
+</div>
+
+
+{% endblock %}

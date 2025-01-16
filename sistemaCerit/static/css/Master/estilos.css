@@ -1,0 +1,8 @@
+.img-redonda {
+    border-radius: 50%; /* Hace que la imagen sea redonda */
+    width: 50px; /* Puedes ajustar el tamaño según tus necesidades */
+    height: 50px; /* Asegúrate de que sea igual al width para mantener la proporción */
+    object-fit: cover; /* Asegura que la imagen se ajuste bien al contenedor redondo */
+    border: 2px solid #fff; /* Opcional: un borde blanco alrededor de la imagen */
+}
+

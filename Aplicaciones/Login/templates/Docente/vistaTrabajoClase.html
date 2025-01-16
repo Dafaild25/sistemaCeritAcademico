@@ -1,0 +1,37 @@
+
+<div class="container ">
+    <br>
+    <div class="row border border-primary">
+        <div class="col-6">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <select name="cboTrimestreTrabajo" id="cboTrimestreTrabajo" class="form-control"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row align-items-center justify-content-center" style="height: 100%;">
+                <input type="hidden" id="claseTrabajo" value="{{curso_asignatura.id}}">
+                <div class="col-4 text-center">
+                    {{asignatura.nombre}}
+                </div>
+                <div class="col-4 text-center ">
+                    CURSO: {{curso.nombre}}       
+                </div>
+                <div class="col-4 text-center">
+                    PARALELO: {{curso.paralelo}}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    
+    <div class="row g-0" id="contenedor-aportes-trimestrales">
+        <div id="barraProgreso" class="progress" style="display: none; height: 20px;">
+            <div id="barraProgresoInterna" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Cargando...</div>
+        </div>
+    </div>
+
+    
+</div>

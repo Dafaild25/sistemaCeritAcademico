@@ -1,0 +1,188 @@
+{% extends 'masterAdmin.html' %}
+{% load static %}
+{% block body %}
+<script src="{% static 'js/Matricula/adminCurso.js' %}" defer></script>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 text-aling-center">
+            <br>
+            <label >Periodo academico:</label>
+           
+            
+        </div>
+        <div class="col-md-6">
+            <select  class='form-control' name="" id="periodoAcademico"></select>
+        </div>
+
+        <br><br>
+        
+    </div>
+    <br>
+
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+        <!-- copia desde aqui -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseTres" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapseTres" style="background-color: #8021D9; color: white;">
+                    Cursos
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseTres" class="accordion-collapse collapse show">
+                <div class="accordion-body"> 
+                    <!-- aqui va lo que quieran -->
+                    <div class="container mt-4">    
+                        <div class="row contenido" id="contenedor_tarjetas">
+                            <!-- aqui debe ir el for -->
+                
+                        </div>
+                    </div>
+                    <!-- termina el contenido -->
+                </div>
+            </div>
+        </div>
+        <!-- aqui se acaba el primer acordeon -->
+    </div>
+    <div class="container " id="contenedor_estudiantes" style="display:none;" >
+                <br>
+        <div class="row">
+            <div class="col-6">
+                <h3 class="text-aling-center">Estudiantes </h3>
+            </div>
+            <div class="col-6 d-flex justify-content-end align-items-start">
+                <i class="fa fa-close fa-2x "  onclick="ocultarListado()"></i>
+            </div>
+            <br><br>
+        </div>
+            
+        <!-- Formulario para importar estudiantes -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <form method="post" enctype="multipart/form-data"  id="importarForm" >
+                    {% csrf_token %}
+                    <input type="hidden" name="curso_id" id="curso_id" value="" />
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="archivo_excel" class="form-label">Cargar archivo Excel:</label>
+                            <input type="file" name="archivo_excel" id="archivo_excel" accept=".xlsx" class="form-control" >
+                        </div>
+                        <div class="col-6">
+                        <br>
+                            <button type="button" class="btn btn-primary mt-2" onclick="enviarArchivo()">Importar Estudiantes</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="{% static 'archivos/formato_importacion_estudiantes.xlsx' %}" download id="DescargarFormato" class="btn btn-success">
+                                Descargar Formato <i class="fas fa-download"></i>
+                            </a> 
+                        </div>  
+                    </div>
+        
+                </form>
+            </div>
+        </div>
+        <br>
+        <hr>
+
+        <!-- Formulario para matrícula individual -->
+        <div class="container mt-4">
+            <h3 class="text-center">Matrícula Individual</h3>
+            <form id="matriculaForm">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group mb-3">
+                            <label for="estudiante">Seleccionar Estudiante</label>
+                            <select id="estudiante" name="estudiante" class="form-control">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group mb-3">
+                            <label for="estado_matricula">Seleccionar Estado</label>
+                            <select id="estado_matricula" name="estado_matricula" class="form-control">
+                                <option value="ACTIVO">Activo</option>
+                                <option value="INACTIVO">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="button" onclick="matriculaIndividual()"  class="btn btn-primary">Matricular Estudiante</button>
+                    </div>
+
+                </div>
+                
+            </form>
+        </div>
+
+
+
+        <br>
+        <hr>
+        <br>
+        <div class="container" id="listado_estudiantes">
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal de Edición -->
+<div class="modal fade" id="editMatriculaModal" tabindex="-1" aria-labelledby="editMatriculaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editMatriculaModalLabel">Editar Matrícula</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editMatriculaForm">
+                    {% csrf_token %}
+                    <input type="hidden" id="edit-matricula-id" name="matricula_id">
+                    <div class="mb-3">
+                         <!-- 
+                        <label for="edit-estudiante-id" class="form-label">ID Estudiante</label>-->
+                        <input type="hidden" class="form-control" id="edit-estudiante-id" name="estudiante_id" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <!-- 
+                        <label for="edit-curso-id" class="form-label">ID Curso</label>-->
+                        <input type="hidden" class="form-control" id="edit-curso-id" name="curso_id" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-estado" class="form-label">Estado</label>
+                        <select class="form-select" id="edit-estado" name="estado">
+                            <option value="ACTIVO">Activo</option>
+                            <option value="INACTIVO">Inactivo</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!-- Modal de Carga -->
+ <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <i class="fa fa-spinner fa-spin fa-3x"></i>
+                <p>Procesando, por favor espere...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

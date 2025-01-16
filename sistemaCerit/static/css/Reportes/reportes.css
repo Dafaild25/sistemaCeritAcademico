@@ -1,0 +1,349 @@
+.card-button, .card-asignatura {
+    cursor: pointer; /* Cambia el cursor a una mano cuando se pasa sobre la tarjeta */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición para efectos de hover */
+}
+
+.card-button:hover, .card-asignatura:hover {
+    transform: scale(1.05); /* Escala ligeramente la tarjeta cuando se pasa sobre ella */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade una sombra cuando se pasa sobre la tarjeta */
+}
+
+.card-button, .card-asignatura {
+    cursor: pointer; /* Cambia el cursor a una mano cuando se pasa sobre la tarjeta */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición para efectos de hover */
+    border: none; /* Elimina cualquier borde */
+    margin: 0; /* Elimina márgenes adicionales */
+    padding: 0; /* Ajusta el padding si es necesario */
+    overflow: hidden; /* Evita el desbordamiento que podría causar barras de desplazamiento */
+}
+
+.card-button:hover, .card-asignatura:hover {
+    transform: scale(1.05); /* Escala ligeramente la tarjeta cuando se pasa sobre ella */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade una sombra cuando se pasa sobre la tarjeta */
+}
+
+.card-button:focus, .card-asignatura:focus {
+    outline: none; /* Elimina el borde de enfoque predeterminado */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.8em; /* Tamaño de fuente adecuado */
+    font-family: 'Arial', sans-serif;
+    text-align: left;
+    background-color: #f9f9f9; /* Color de fondo para la tabla */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+th, td {
+    padding: 8px; /* Espaciado interno */
+    /* border: 1px solid #dddddd; */
+    text-align: center; /* Centrar texto en las celdas */
+}
+
+thead th {
+    /* background-color: #008CBA; Fondo azul para encabezados */
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase; /* Texto en mayúsculas */
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f3f3f3; /* Color de fondo alternado */
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+th[colspan="4"] {
+    text-align: center;
+}
+
+.calificaciones {
+    display: none;
+    background-color: #f0f8ff;
+    border: 1px solid #008CBA;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.calificaciones-div {
+    display: none; /* O el valor por defecto que necesites */
+}
+
+/* para que se mueva  */
+.fixed-column {
+    position: sticky;
+    left: 0;
+    background-color: #f2f2f2;
+    z-index: 10;
+}
+
+.fixed-column.nominas {
+    left: 20px; 
+    max-width: 200px;
+    width: 200px;
+    padding-right: 0;
+    min-width: 200px;  /* Asegurar el ancho mínimo de 200px */
+    font-size: small;
+    text-align: left;
+    color: white;
+    
+}
+/* Columna N° con ancho de 20px */
+.fixed-column.enumerados {
+    left: 0; /* Mantiene esta columna fija en el lado izquierdo */
+    max-width: 20px;
+    width: 20px;
+    min-width: 20px;  /* Asegurar el ancho mínimo de 20px */
+    font-size: x-small;
+    color: white;
+}
+
+.fixed-column.nominas.letra {
+    left: 20px; 
+    max-width: 200px;
+    width: 200px;
+    padding-right: 0;
+    min-width: 200px;  /* Asegurar el ancho mínimo de 200px */
+    font-size: small;
+    text-align: left;
+    color: black;
+    
+}
+/* Columna N° con ancho de 20px */
+.fixed-column.enumerados.letra {
+    left: 0; /* Mantiene esta columna fija en el lado izquierdo */
+    max-width: 20px;
+    width: 20px;
+    min-width: 20px;  /* Asegurar el ancho mínimo de 20px */
+    font-size: x-small;
+    color: black;
+}
+
+/* Ajusta el ancho y el tamaño del input */
+.nota-input {
+    width: 40px; /* Hace que el input ocupe el 100% del ancho de la celda */
+    font-size: small;
+    border: none; /* Opcional: elimina el borde del input si no lo deseas */
+    padding: 0; /* Elimina el padding del input */
+    transition: border-color 0.3s ease; /* Transición suave para el cambio de borde */
+    
+}
+
+.highlight-input {
+    border: 2px solid #22b512; /* Borde celeste fluorescente */
+}
+
+/* Opcional: Estilo para inputs deshabilitados */
+.nota-input:disabled {
+    border: none; /* Elimina el borde cuando el input está deshabilitado */
+}
+.input-error {
+    border: 2px solid red;  /* Borde rojo para los campos con error */
+}
+
+
+/* para agregar el ojo de observacion */
+.input-group-text {
+    
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* Evita colores extraños alrededor del ícono */
+    border: none; /* Sin borde */
+    padding: 0; /* Elimina relleno */
+}
+.input-group-text i {
+    color: #f4a20a; /* Color del ícono */
+    font-size: 1em; /* Tamaño del ícono */
+}
+
+
+.observaciones {
+    
+    display: flex; /* Activa flexbox solo en esta celda */
+    align-items: center; /* Alinea verticalmente en el centro */
+    justify-content: center; /* Alinea horizontalmente a la izquierda */
+    gap: 5px; /* Espacio entre el input y el ícono */
+    text-align: center;
+    
+}
+
+/* para la tabla que se mueve  */
+.grade-column {
+    
+    width: 40px; /* Ancho fijo para todas las columnas grade-column */
+    white-space: nowrap; /* Permite el salto de línea */
+    vertical-align: top; /* Alinea el contenido al inicio de la celda */
+    text-overflow: ellipsis; 
+    box-sizing: border-box; /* Incluye el padding y el borde en el cálculo del ancho total */
+    
+}
+.aporte-nombre {
+    font-size: xx-small; /* Tamaño de texto más pequeño para el nombre del aporte */
+    display: block; /* Asegura que esté en una línea separada */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    color: white; /* Color del texto blanco */
+    
+        
+    
+}
+.aporte-fecha-admin {
+    font-size: 10px; /* Tamaño de texto más pequeño para la fecha */
+    display: block; /* Asegura que esté en una línea separada */
+    color: black; /* Color del texto blanco */
+    font-size: xx-small;
+    
+    
+}
+
+.grade-column.grupoBotones{
+    background-color: white;
+}
+
+.btn-group {
+    display: inline-flex;
+    justify-content: center;  /* Centra los botones horizontalmente */
+    align-items: center;  /* Centra verticalmente si el tamaño del contenedor cambia */
+    gap: 10px; /* Espacio entre botones */
+}
+
+
+/* estilos para losbotones dentro de la tabla */
+/* Botón de calificar */
+.btn-calificar {
+    background-color: white;
+    color: #4CAF50;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: outline 0.3s ease; /* Suavizar el efecto outline */
+}
+
+.btn-calificar:hover {
+    outline: 2px solid  white; /* Outline verde al hacer hover */
+    background-color: #4CAF50; /* Cambiar fondo a blanco al hover */
+    color: white; /* Cambiar el texto a verde */
+}
+
+/* Botón de editar */
+.btn-edit {
+    background-color: white; /* Color de fondo azul */
+    color: #008CBA ;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: outline 0.3s ease; /* Suavizar el efecto outline */
+}
+
+.btn-edit:hover {
+    outline: 2px solid white ;  /* Outline azul al hacer hover */
+    background-color: #008CBA; /* Cambiar fondo a blanco al hover */
+    color: white; /* Cambiar el texto a azul */
+}
+
+/* Botón de eliminar */
+.btn-delete {
+    background-color: white; /* Color de fondo rojo */
+    color:  #f44336;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: outline 0.3s ease; /* Suavizar el efecto outline */
+}
+
+.btn-delete:hover {
+    outline: 2px solid white; /* Outline rojo al hacer hover */
+    background-color: #f44336; /* Cambiar fondo a blanco al hover */
+    color: white; /* Cambiar el texto a rojo */
+}
+
+/* david  */
+.aporte-container-unidad {
+    position: relative; /* Para posicionar la franja superior */
+    padding-top: 10px; /* Espacio superior para que la franja no se sobreponga al contenido */
+    background-color: white;
+    white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+    overflow: hidden; /* Oculta el texto que se desborda */
+    text-overflow: ellipsis; /* Agrega los puntos suspensivos cuando el texto es demasiado largo */
+    width: 100px; /* Ancho fijo cuando no se hace hover */
+    display: inline-block; /* Para que se mantenga en línea */
+    transition: width 0.3s ease-in-out; /* Suaviza la animación al cambiar el ancho */
+}
+
+.aporte-container-unidad {
+    position: relative; /* Para posicionar la franja superior */
+    padding-top: 10px; /* Espacio superior para que la franja no se sobreponga al contenido */
+    
+}
+
+
+.franja-superior-admin {
+    height: 6px; /* Altura de la franja superior */
+    width: 100%; /* Ancho completo */
+    border-radius: 5px 5px 0 0; /* Bordes redondeados en la parte superior */
+}
+
+.aporte-nombre-admin {
+    font-size: 8px;
+    width: 120px;
+    color: black; /* El color del texto es negro para mayor contraste */
+}
+
+.aporte-container-unidad:hover {
+    width: 120px; /* Estira el contenedor horizontalmente al hacer hover */
+    text-overflow: unset; /* Elimina los puntos suspensivos al hacer hover */
+    white-space: normal; /* Permite que el texto se ajuste a varias líneas si es necesario */
+    overflow: visible; /* Muestra el contenido que se desborda hacia abajo */
+}
+
+
+.grade-column.prom {
+    
+    width: 200px; /* Ancho fijo para todas las columnas grade-column */
+    white-space: nowrap; /* Permite el salto de línea */
+    overflow-x: auto; /* Habilitar desplazamiento horizontal */
+    scroll-behavior: smooth; /* Desplazamiento suave */
+    vertical-align: top; /* Alinea el contenido al inicio de la celda */
+    text-overflow: ellipsis; 
+    box-sizing: border-box; /* Incluye el padding y el borde en el cálculo del ancho total */
+    
+}
+
+.btn-calificar-examen {
+    background-color: white; /* Fondo transparente para integrarlo mejor con la celda */
+    color: #4CAF50; /* Color del ícono */
+    border: 2px solid #4CAF50; /* Borde del botón */
+    padding: 8px; /* Ajustar el tamaño del botón */
+    cursor: pointer;
+    margin-left: 10px; /* Espacio entre botones */
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Animaciones suaves */
+}
+
+.btn-calificar-examen:hover {
+    background-color: #faac05; /* Fondo verde al pasar el cursor */
+    color: white; /* Ícono blanco para contraste */
+    transform: scale(1.1); /* Agrandar ligeramente el botón al pasar el cursor */
+}
+
+.btn-calificar-examen.btn-guardar {
+    color: #faac05; /* Color fluorescente cuando está en modo guardar */
+    border-color: #faac05; /* Borde fluorescente */
+}
+
+.btn-calificar-examen.btn-guardar:hover {
+    background-color: #4CAF50; /* Fondo verde al pasar el cursor */
+    color: white; /* Ícono blanco para contraste */
+    transform: scale(1.1); /* Agrandar ligeramente el botón al pasar el cursor */
+}

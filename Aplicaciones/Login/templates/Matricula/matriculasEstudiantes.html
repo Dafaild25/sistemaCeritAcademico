@@ -1,0 +1,55 @@
+<h2 class="text-center">Estudiantes Matriculados en {{ curso.nombre }}</h2>
+<!-- Listado de estudiantes -->
+<table class="table" id="tbl-estudiantes">
+    <thead>
+        <tr>
+            <th>N°</th> <!-- Número de Enumeración -->
+            <th>Usuario</th>
+            <th>Cédula</th> <!-- Número de Cédula -->
+            <th>Apellidos y Nombres</th> <!-- Apellidos y Nombres -->
+            <th>Acciones</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for estudiante in estudiantes %}
+            <tr id="estudiante-row-{{ estudiante.id }}">
+                <td>{{ forloop.counter }}</td> <!-- Número de Enumeración -->
+                <td>{{ estudiante.usuario.username }}</td>
+                <td>{{ estudiante.cedula }}</td> <!-- Número de Cédula -->
+                <td>{{ estudiante.apellido_Paterno }} {{ estudiante.apellido_Materno }} {{ estudiante.primer_nombre }} {{ estudiante.segundo_nombre }} </td> <!-- Apellidos y Nombres -->
+                
+                <td class="text-center">
+                    <div class="d-flex justify-content-around">
+                        <a title="Ver Estudiante" class="btn btn-outline-warning btn-circle mx-1" onclick="editarEstudiante({{ estudiante.id }})" title="Editar Estudiante">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a title="Eliminar Matricula" onclick="eliminarMatricula({{ estudiante.matricula_set.first.id }}, 'estudiante-row-{{ estudiante.id }}')" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <a class="btn btn-primary btn-circle mx-1" title="Editar Matricula" onclick="editarMatricula({{ estudiante.matricula_set.first.id }})" title="Editar matrícula">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </div>
+
+                    
+                </td>
+               
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="12">No hay estudiantes.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<style>
+    .btn-circle{
+        border-radius:100px !important;
+    }
+</style>
+
+    
+    

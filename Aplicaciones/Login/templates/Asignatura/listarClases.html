@@ -1,0 +1,34 @@
+<div class="container">
+    <hr>
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    <div id="datatable-search-container"></div>
+    {% elif cursoClase %}
+    <div class="table-responsive">
+        <table class="table" id="tbl-clases">
+            <thead>
+                <tr>
+                    <th>Curso</th>
+                    <th>Asignatura</th>
+                    <th>Cédula</th>
+                    <th>Docente</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for clases in cursoClase %}
+                    <tr>
+                        <td>{{ clases.curso_id.nombre }}</td>
+                        <td>{{ clases.asignatura_id.nombre }}</td>
+                        <td>{{ clases.docente_id.cedula }}</td>
+                        <td>{{ clases.docente_id.primer_nombre }} {{ clases.docente_id.segundo_nombre }} {{ clases.docente_id.apellido_Paterno }} {{ clases.docente_id.apellido_Materno }}</td>
+                        <td><a href="#" class="btn btn-danger" onclick="eliminarCursoAsigantura({{clases.id}})"><i class="fas fa-trash-alt"></i></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">No existen clases asignadas para el periodo seleccionado.</div>
+    {% endif %}
+</div>
